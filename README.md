@@ -57,6 +57,12 @@ Example:
 
 ![](plot-choropleths/choropleth-n_eur.jpg)
 
+## `plot-turnout`
+
+Scatterplots of turnout in the 2024 EU elections vs. previous years:
+
+![](plot-turnout/plot-turnout.jpg)
+
 ## Dependencies
 
 ```r

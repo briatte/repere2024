@@ -30,9 +30,9 @@ p1 <- ggplot(d, aes(trn20, trn24)) +
   geom_density_2d_filled(alpha = 0.5, show.legend = FALSE) +
   geom_point(aes(size = ins24), alpha = 0.75) +
   scale_fill_viridis_d(option = "C") +
-  ggrepel::geom_label_repel(data = filter(d, ins24 > 2.5e4),
+  ggrepel::geom_label_repel(data = filter(d, ins24 > 2e4),
                             aes(label = city),
-                            box.padding = 1.7, max.overlaps = Inf,
+                            box.padding = 0.7, max.overlaps = Inf,
                             min.segment.length = 0, seed = 202459) +
   # coord_equal() +
   # scale_color_manual("", values = c("> 5,000" = "black", "< 5,000" = "grey50")) +
@@ -52,9 +52,9 @@ p2 <- ggplot(d, aes(trn22, trn24)) +
   geom_density_2d_filled(alpha = 0.5, show.legend = FALSE) +
   geom_point(aes(size = ins24), alpha = 0.75) +
   scale_fill_viridis_d(option = "C") +
-  ggrepel::geom_label_repel(data = filter(d, ins24 > 2.5e4),
+  ggrepel::geom_label_repel(data = filter(d, ins24 > 2e4),
                             aes(label = city),
-                            box.padding = 1.7, max.overlaps = Inf,
+                            box.padding = 0.7, max.overlaps = Inf,
                             min.segment.length = 0, seed = 202459) +
   # coord_equal() +
   # scale_color_manual("", values = c("> 5,000" = "black", "< 5,000" = "grey50")) +
@@ -70,6 +70,10 @@ p2 <- ggplot(d, aes(trn22, trn24)) +
   theme(plot.title = element_text(face = "bold", hjust = 0))
 
 p1 + p2 + plot_layout(ncol = 2, widths = c(1, 1), heights = NA) +
-  plot_annotation(caption = "Note: x-axes have different ranges")
+  plot_annotation(
+    caption = str_c("Point areas are proportional to 2024 electorate size\n",
+                    "Labels show cities with 20,000+ registered voters\n",
+                    "Note: x-axes have different ranges")
+  )
 
 ggsave("plot-turnout/plot-turnout.jpg", width = 14, height = 7)

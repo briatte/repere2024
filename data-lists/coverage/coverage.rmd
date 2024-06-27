@@ -1,0 +1,51 @@
+---
+title: "Data coverage"
+author: "FB"
+date: "2024-06-27"
+output:
+  md_document:
+    variant: gfm
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+library(tidyverse)
+
+d <- "coverage.tsv" %>%
+  readr::read_tsv(col_types = "cciiii") %>%
+  mutate(status = case_when(observed == 1 & empty == 1 ~ "Observed but empty",
+                            observed == 0 ~ "Unobserved, missing",
+                            .default = "Observed") %>%
+           factor())
+
+ele <- "../electorate/electorate-counts.tsv" %>% 
+  readr::read_tsv(col_types = cols()) %>% 
+  mutate(code = as.character(code)) %>% 
+  select(code, n_ins, n_eur) %>% 
+  full_join(d, by = "code")
+```
+
+## Weight of missing cities in overall city sample
+
+```{r main-stats}
+group_by(ele, status) %>% 
+  summarise(
+    n = n(),
+    n_voters = sum(n_ins),
+    p_cities = 100 * n() / nrow(ele),
+    p_ins = 100 * sum(n_ins) / sum(ele$n_ins),
+    p_eur = 100 * sum(n_eur) / sum(ele$n_eur),
+  ) %>% 
+  add_row(status = "Total", n = nrow(ele), n_voters = sum(ele$n_ins), 
+          p_cities = 100, p_ins = 100, p_eur = 100) %>%
+  knitr::kable(digits = 1, col.names = c("", "Cities", "Voters", "% cities",
+                                         "% voters", "% EU voters"),
+               format.args = list(big.mark = ","))
+```
+
+"Observed but empty" means that the cities were inspected during fieldwork but did not provide a complementary list of EU voters.
+
+## Spatial distribution of missing cities
+
+![](coverage-choropleth.jpg)

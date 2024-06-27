@@ -38,6 +38,7 @@ Electoral data, scraped from the [Web archive][elections] of the Ministry of the
 
 Data from the 2024 electoral lists:
 
+- `coverage` -- data collection coverage
 - `votes`
 - `procurations`
 

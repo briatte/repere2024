@@ -34,7 +34,7 @@ sum(d$complete != "Unobserved, missing") # 580
 round(100 * sum(d$complete != "Unobserved, missing") / nrow(d), 1) # 89.5%
 
 d <- d %>%
-  full_join("data-cities/electorate/electorate-counts.tsv" %>%
+  full_join("data-lists/electorate/electorate-counts.tsv" %>%
               read_tsv(col_types = cols()) %>%
               mutate(code = as.character(code), n_ins1000 = n_ins / 1000) %>%
               select(-city),

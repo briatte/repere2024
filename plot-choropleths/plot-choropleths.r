@@ -6,7 +6,7 @@ library(sf)
 library(tidyverse)
 
 geo <- readr::read_rds("data-cities/geography/city-contours.rds")
-ele <- read_tsv("data-cities/electorate/electorate-counts.tsv",
+ele <- read_tsv("data-lists/electorate/electorate-counts.tsv",
                 col_types = cols()) %>%
   mutate(code = as.character(code)) %>%
   # replace 0 with NA to grey out areas with 0 voters

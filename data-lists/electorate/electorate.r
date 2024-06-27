@@ -4,7 +4,7 @@
 
 library(tidyverse)
 
-z <- "data-cities/electorate/Listes arrêtées Nord 140524.zip"
+z <- "data-lists/electorate/Listes arrêtées Nord 140524.zip"
 f <- unzip(z, list = TRUE) %>%
   pull(Name) %>%
   str_subset("csv$")
@@ -82,7 +82,7 @@ stopifnot(!is.na(d$age))
 stopifnot(!is.na(d$age6))
 
 # export temp. data (not to be uploaded)
-readr::write_rds(d, "data-cities/electorate/electorate.rds", compress = "gz")
+readr::write_rds(d, "data-lists/electorate/electorate.rds", compress = "gz")
 
 # non-French counts, by nationality
 nat <- d %>%
@@ -109,6 +109,6 @@ d %>%
   left_join(select(nat, -city), by = "code") %>%
   # replace NA with 0s
   mutate_if(is.integer, replace_na, 0) %>%
-  readr::write_tsv("data-cities/electorate/electorate-counts.tsv")
+  readr::write_tsv("data-lists/electorate/electorate-counts.tsv")
 
 # kthxbye

@@ -17,9 +17,7 @@ City-level data:
 
 - `census` -- population characteristics extracted from the last census
 - `geography` -- spatial boundaries and centroids (source: [Etalab, 2024][geo])
-- `electorate` -- registered voters (source: Préfecture du Nord, 2024)
 - `population` -- legal population sizes (source: [Insee, 2024][legal-pop])
-- `sample` -- cities included and excluded of past (and future) models
 
 [geo]: https://geo.api.gouv.fr/
 [legal-pop]: https://www.insee.fr/fr/statistiques/7739582
@@ -38,7 +36,8 @@ Electoral data, scraped from the [Web archive][elections] of the Ministry of the
 
 Data from the 2024 electoral lists:
 
-- `coverage` -- data collection coverage
+- `coverage` -- data collection coverage (source: authors' fieldwork)
+- `electorate` -- registered voters (source: Préfecture du Nord, 2024)
 - `votes`
 - `procurations`
 

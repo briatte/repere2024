@@ -1,6 +1,6 @@
 # REPERE 2024
 
-![](plot/cartograms/cartogram-pct_abs-eur24.jpg)
+![](plot-cartograms/cartogram-pct_abs-eur24.jpg)
 
 The code and data in this repo are part of the [REPERE][repere] (_Recherche Empirique sur la Participation Électorale des Ressortissants Européens_) and [ECREMEE][ecremee] research projects. The repo focuses on the _département du Nord_ and the EU elections of 2024.
 

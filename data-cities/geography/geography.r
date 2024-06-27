@@ -2,7 +2,6 @@
 # 2. collect geometries into {sf} objects
 # 3. export {sf} objects as RDS files
 
-library(httr)
 library(jqr)
 library(sf)
 library(tidyverse)

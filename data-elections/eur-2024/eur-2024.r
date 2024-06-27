@@ -69,8 +69,8 @@ for (i in LETTERS) {
 d %>%
   mutate(X1 = str_sub(str_to_lower(X1), 1, 3),
          X2 = as.integer(str_remove_all(X2, "\\D"))) %>%
-  tidyr::pivot_wider(id_cols = city, names_from = X1, values_from = X2) %>%
-  tidyr::separate(city, sep = "\\(", into = c("city", "code")) %>%
+  pivot_wider(id_cols = city, names_from = X1, values_from = X2) %>%
+  separate(city, sep = "\\(", into = c("city", "code")) %>%
   mutate(city = str_squish(city),
          code = as.integer(str_sub(code, end = -2))) %>%
   # turnout = 100 * (1 - abs / ins)

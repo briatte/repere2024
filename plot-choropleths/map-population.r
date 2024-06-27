@@ -4,7 +4,6 @@
 library(ggrepel)
 library(sf)
 library(tidyverse)
-library(viridisLite)
 
 geo <- readr::read_rds("geography/city-contours.rds")
 ctr <- readr::read_rds("geography/city-centres.rds")

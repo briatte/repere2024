@@ -4,7 +4,6 @@
 library(ggrepel)
 library(sf)
 library(tidyverse)
-library(viridisLite)
 
 geo <- readr::read_rds("data-cities/geography/city-contours.rds")
 ele <- read_tsv("data-cities/electorate/electorate-counts.tsv",

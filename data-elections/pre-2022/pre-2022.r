@@ -98,8 +98,8 @@ d <- d %>%
   group_by(city) %>%
   mutate(round = 1:n(),
          round = if_else(round < 7, 2L, 1L)) %>%
-  tidyr::pivot_wider(id_cols = c(city, code, round),
-                     names_from = what, values_from = n)
+  pivot_wider(id_cols = c(city, code, round),
+              names_from = what, values_from = n)
 
 stopifnot(!is.na(d$round))
 

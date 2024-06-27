@@ -95,8 +95,8 @@ d <- d %>%
            n() == 12 & round < 7 ~ 2,
            n() == 12 & round > 6 ~ 1,
            .default = NA)) %>%
-  tidyr::pivot_wider(id_cols = c(city, code, round),
-                     names_from = what, values_from = n)
+  pivot_wider(id_cols = c(city, code, round),
+              names_from = what, values_from = n)
 
 stopifnot(!is.na(d$round))
 

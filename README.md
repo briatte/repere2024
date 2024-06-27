@@ -36,12 +36,12 @@ Electoral data, scraped from the [Web archive][elections] of the Ministry of the
 
 Data from the 2024 electoral lists:
 
-- `coverage` -- data collection coverage (source: authors' fieldwork)
+- `coverage` -- data collection coverage (source: fieldwork)
 - `electorate` -- registered voters (source: Préfecture du Nord, 2024)
 - `votes`
 - `procurations`
 
-__N.B.__ The scripts in this folder rely on restridted-access datasets.
+__N.B.__ The scripts in this folder rely on restricted-access datasets.
 
 ## `plot-cartograms`
 
@@ -64,6 +64,14 @@ Example:
 Scatterplots of turnout in the 2024 EU elections vs. previous years:
 
 ![](plot-turnout/plot-turnout.jpg)
+
+## `plot-turnout`
+
+Scatterplots of vote shares in the 2024 EU elections vs. the 2022 presidential election.
+
+Example:
+
+![](plot-vshares/plot-vshares-rn-ensemble.jpg)
 
 ## Dependencies
 

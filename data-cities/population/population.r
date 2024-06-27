@@ -1,7 +1,7 @@
 library(tidyverse)
 
 u <- "https://www.insee.fr/fr/statistiques/fichier/7739582/ensemble.zip"
-f <- fs::path_file(u)
+f <- "data-cities/population/ensemble.zip"
 
 if (!fs::file_exists(f)) {
   download.file(u, f, mode = "wb", quiet = TRUE)
@@ -20,6 +20,6 @@ sum(d$PTOT) # 2641207
 summary(d$PTOT)
 
 select(d, code = COM, city = Commune, pop21 = PTOT) %>%
-  readr::write_tsv("population.tsv")
+  readr::write_tsv("data-cities/population/population.tsv")
 
 # kthxbye

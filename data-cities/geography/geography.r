@@ -12,14 +12,14 @@ library(tidyverse)
 
 fs::dir_create("json")
 
-d <- readr::read_tsv("../population/population.tsv")
+d <- readr::read_tsv("data-cities/population/population.tsv")
 stopifnot(!duplicated(d$code))
 
 b <- "https://geo.api.gouv.fr/"
 for (i in rev(d$code)) {
 
   u <- str_c(b, "communes?code=", i, "&fields=code,nom,centre,contour,bbox")
-  f <- str_c("json/", i, ".json")
+  f <- str_c("data-cities/geography/json/", i, ".json")
 
   if (!fs::file_exists(f)) {
 
@@ -58,7 +58,7 @@ geo <- j %>%
   # purrr::map(j, jqr::jq, ".[] | .code")
   add_column(code = n)
 
-readr::write_rds(geo, "city-contours.rds")
+readr::write_rds(geo, "data-cities/geography/city-contours.rds")
 
 # centres (points) --------------------------------------------------------
 
@@ -68,6 +68,6 @@ ctr <- j %>%
   bind_rows() %>%
   add_column(code = n)
 
-readr::write_rds(ctr, "city-centres.rds")
+readr::write_rds(ctr, "data-cities/geography/city-centres.rds")
 
 # kthxbye

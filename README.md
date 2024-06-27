@@ -56,3 +56,24 @@ Maps of electorate sizes in the 2024 EU elections.
 Example:
 
 ![](plot-choropleths/choropleth-n_eur.jpg)
+
+## Dependencies
+
+```r
+library(tidyverse)
+fs::dir_ls(glob = "*r", recurse = TRUE) %>% 
+    map(read_lines) %>% 
+    map(str_subset, "library\\(") %>% 
+    unlist() %>% 
+    unique() %>% 
+    sort() %>% 
+    cat(sep = "\n")
+    
+library(cartogram)
+library(ggrepel)
+library(jqr)
+library(patchwork)
+library(rvest) # bundled with the {tidyverse}
+library(sf)
+library(tidyverse)
+```

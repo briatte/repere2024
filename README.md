@@ -1,7 +1,5 @@
 # REPERE 2024
 
-![](plot-cartograms/cartogram-pct_abs-eur24.jpg)
-
 The code and data in this repo are part of the [REPERE][repere] (_Recherche Empirique sur la Participation Électorale des Ressortissants Européens_) and [ECREMEE][ecremee] research projects. The repo focuses on the _département du Nord_ and the EU elections of 2024.
 
 [repere]: https://sms.univ-tlse2.fr/accueil-sms/la-recherche/operations-structurantes/repere-recherche-empirique-sur-la-participation-electorale-des-ressortissants-europeens
@@ -13,13 +11,28 @@ See [Kelbel _et al._ 2024][pag24] for earlier results on the 2020 municipal elec
 
 ## Contents
 
-## `data-scrapers`
+## `data-cities`
 
-Scrapers for electoral data:
+City-level data:
+
+- `census`
+- `geography` -- spatial boundaries and centroids (source: [Etalab, 2024][geo])
+- `electorate` -- registered voters (source: Préfecture du Nord, 2024)
+- `population` -- legal population sizes (source: [Insee, 2024][legal-pop])
+- `sample` -- cities included and excluded of past (and future) models
+
+[geo]: https://geo.api.gouv.fr/
+[legal-pop]: https://www.insee.fr/fr/statistiques/7739582
+
+## `data-elections`
+
+Electoral data, scraped from the [Web archive][elections] of the Ministry of the Interior:
 
 - `eur-2024` -- turnout in the 2024 EU elections
 - `mun-2020` -- turnout in the 2020 municipal elections
 - `pre-2024` -- turnout and results of the 2022 presidential election
+
+[elections]: https://www.archives-resultats-elections.interieur.gouv.fr/
 
 ## `data-lists`
 
@@ -28,14 +41,18 @@ Data from the 2024 electoral lists:
 - `votes`
 - `procurations`
 
-## `data-cities`
+## `plot-cartograms`
 
-City-level data:
+Contiguous and non-overlapping circle cartograms of abstention and turnout rates.
 
-- `electorate` -- registered voters 
-  (source: Préfecture du Nord, 2024)
-- `population` -- legal population sizes 
-  (source: [Insee, 2024][legal-pop])
-- `sample` -- cities included and excluded of past (and future) models
+Example:
 
-[legal-pop]: https://www.insee.fr/fr/statistiques/7739582
+![](plot-cartograms/cartogram-pct_abs-eur24.jpg)
+
+## `plot-choropleths`
+
+Maps of electorate sizes in the 2024 EU elections.
+
+Example:
+
+![](plot-choropleths/choropleth-n_eur.jpg)

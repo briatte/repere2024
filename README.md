@@ -15,7 +15,7 @@ See [Kelbel _et al._ 2024][pag24] for earlier results on the 2020 municipal elec
 
 City-level data:
 
-- `census`
+- `census` -- population characteristics extracted from the last census
 - `geography` -- spatial boundaries and centroids (source: [Etalab, 2024][geo])
 - `electorate` -- registered voters (source: Préfecture du Nord, 2024)
 - `population` -- legal population sizes (source: [Insee, 2024][legal-pop])

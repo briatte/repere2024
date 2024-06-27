@@ -41,6 +41,8 @@ Data from the 2024 electoral lists:
 - `votes`
 - `procurations`
 
+__N.B.__ The scripts in this folder rely on restridted-access datasets.
+
 ## `plot-cartograms`
 
 Contiguous and non-overlapping circle cartograms of abstention and turnout rates.

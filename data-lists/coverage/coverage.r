@@ -16,9 +16,10 @@ d <- "data-lists/fieldwork/LISTE-COMMUNES-NORD-UGLE - EXPORT.tsv" %>%
            .default = empty)) %>%
   select(code, city, observed, empty, in_m1 = m1, in_m4 = m4)
 
-count(d, observed, empty)
+# sanity check: empty status of unobserved cities is unknown
+stopifnot(is.na(d$empty[ d$observed == 0 ]))
 
-d
+count(d, observed, empty)
 
 # export for plotting
 readr::write_tsv(d, "data-lists/fieldwork/coverage.tsv")

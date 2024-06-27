@@ -90,7 +90,8 @@ nat <- d %>%
   mutate(nat = str_c("n_", str_to_lower(nat))) %>%
   group_by(code, city) %>%
   count(nat) %>%
-  pivot_wider(names_from = "nat", values_from = "n") %>%
+  # NAs have to be set to 0 for the column ordering right below to work
+  pivot_wider(names_from = "nat", values_from = "n", values_fill = 0L) %>%
   ungroup()
 
 # order columns by decreasing counts
@@ -107,7 +108,7 @@ d %>%
   ungroup() %>%
   # append nationality columns
   left_join(select(nat, -city), by = "code") %>%
-  # replace NA with 0s
+  # replace NA with 0s on rows that were not in `nat` object
   mutate_if(is.integer, replace_na, 0) %>%
   readr::write_tsv("data-lists/electorate/electorate-counts.tsv")
 

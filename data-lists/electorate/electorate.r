@@ -34,7 +34,7 @@ d <- d %>%
          fam1 = `nom de naissance`,
          fam2 = `nom d'usage`,
          first = `prénoms`,
-         sex = sexe,
+         female = sexe,
          dob = `date de naissance`,
          nat = `identifiant nationalité`) %>%
   mutate(bdy = as.Date(str_replace(dob, "\\d{4}$", "2024"), "%d/%m/%Y"),
@@ -44,7 +44,7 @@ d <- d %>%
          # sticking with year of birth for them; affects < 0.1% of the sample)
          age = if_else(is.na(bdy), age, age + (bdy < as.Date("2024-06-09"))),
          age6 = cut(age, c(18, 25, 35, 45, 55, 65, Inf), right = FALSE),
-         sex = as.integer(sex == "F"),
+         female = as.integer(female == "F"),
          list = str_remove(list, "Liste ")) %>%
   select(-bdy)
 
@@ -74,10 +74,10 @@ ages <- str_c(ages, "-", lead(ages) - 1)
 levels(d$age6) <- c(na.omit(ages), "65+")
 
 # basic demographics
-count(d, sex)
+count(d, female)
 count(d, age6, sort = TRUE) # top group = 65+, bottom group = 18-24
 
-stopifnot(!is.na(d$sex))
+stopifnot(!is.na(d$female))
 stopifnot(!is.na(d$age))
 stopifnot(!is.na(d$age6))
 

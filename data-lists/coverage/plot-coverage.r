@@ -6,7 +6,7 @@ library(sf)
 library(tidyverse)
 
 d <- "data-lists/coverage/coverage.tsv" %>%
-  read_tsv(col_types = "cciiii") %>%
+  readr::read_tsv(col_types = "cciiii") %>%
   mutate(status = case_when(observed == 1 & empty == 1 ~ "Observed but empty",
                             observed == 0 ~ "Unobserved, missing",
                             .default = "Observed") %>%

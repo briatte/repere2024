@@ -15,10 +15,8 @@ ele <- read_tsv("data-lists/electorate/electorate-counts.tsv",
 geo <- full_join(geo, ele, by = "code")
 
 ctr <- readr::read_rds("data-cities/geography/city-centres.rds")
-pop <- read_tsv("data-cities/population/population.tsv", col_types = "cci")
-
-ctr_largest <- full_join(ctr, pop, by = "code") %>%
-  filter(pop21 > 4e4)
+ctr_largest <- full_join(ctr, select(ele, city, code, n_ins), by = "code") %>%
+  filter(n_ins > 2e4)
 
 lbl_largest <- ggrepel::geom_label_repel(
   data = ctr_largest,
@@ -48,7 +46,7 @@ ggplot(geo) +
   theme_map +
   labs(title = "Size of total electorate",
        subtitle = "All nationalities",
-       caption = "Labels show cities with 40,000+ residents")
+       caption = "Labels show cities with 20,000+ registered voters")
 
 ggsave("plot-choropleths/choropleth-n_ins.jpg", width = 8, height = 8)
 
@@ -66,7 +64,7 @@ ggplot(geo) +
   labs(title = "Size of non-French electorate",
        subtitle = "All nationalities",
        caption = str_c("Areas in grey are cities with 0 non-French voters\n",
-                       "Labels show cities with 40,000+ residents"))
+                       "Labels show cities with 20,000+ registered voters"))
 
 ggsave("plot-choropleths/choropleth-n_eur.jpg", width = 8, height = 8)
 
@@ -85,7 +83,7 @@ ggplot(geo) +
   labs(title = "% of non-French voters out of total electorate",
        subtitle = "All nationalities",
        caption = str_c("Areas in grey are cities with 0 non-French voters\n",
-                       "Labels show cities with 40,000+ residents"))
+                       "Labels show cities with 20,000+ registered voters"))
 
 ggsave("plot-choropleths/choropleth-pct_eur.jpg", width = 8, height = 8)
 
@@ -105,7 +103,7 @@ ggplot(geo) +
   theme_map +
   labs(title = "Size of Belgian electorate",
        caption = str_c("Areas in grey are cities with 0 Belgian voters\n",
-                       "Labels show cities with 40,000+ residents"))
+                       "Labels show cities with 20,000+ registered voters"))
 
 ggsave("plot-choropleths/choropleth-n_be.jpg", width = 8, height = 8)
 
@@ -126,7 +124,7 @@ ggplot(geo) +
   theme_map +
   labs(title = "Size of Portuguese electorate",
        caption = str_c("Areas in grey are cities with 0 Portuguese voters\n",
-                       "Labels show cities with 40,000+ residents"))
+                       "Labels show cities with 20,000+ registered voters"))
 
 ggsave("plot-choropleths/choropleth-n_pt.jpg", width = 8, height = 8)
 
@@ -141,7 +139,7 @@ ggplot(geo) +
   theme_map +
   labs(title = "Size of Italian electorate",
        caption = str_c("Areas in grey are cities with 0 Italian voters\n",
-                       "Labels show cities with 40,000+ residents"))
+                       "Labels show cities with 20,000+ registered voters"))
 
 ggsave("plot-choropleths/choropleth-n_it.jpg", width = 8, height = 8)
 
@@ -156,7 +154,7 @@ ggplot(geo) +
   theme_map +
   labs(title = "Size of Spanish electorate",
        caption = str_c("Areas in grey are cities with 0 Spanish voters\n",
-                       "Labels show cities with 40,000+ residents"))
+                       "Labels show cities with 20,000+ registered voters"))
 
 ggsave("plot-choropleths/choropleth-n_es.jpg", width = 8, height = 8)
 
@@ -171,7 +169,7 @@ ggplot(geo) +
   theme_map +
   labs(title = "Size of German electorate",
        caption = str_c("Areas in grey are cities with 0 German voters\n",
-                       "Labels show cities with 40,000+ residents"))
+                       "Labels show cities with 20,000+ registered voters"))
 
 ggsave("plot-choropleths/choropleth-n_de.jpg", width = 8, height = 8)
 

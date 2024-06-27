@@ -67,10 +67,12 @@ geo <- readr::read_rds("data-cities/geography/city-contours.rds") %>%
   full_join(select(d, -city), by = "code")
 
 ctr <- readr::read_rds("data-cities/geography/city-centres.rds")
-pop <- read_tsv("data-cities/population/population.tsv", col_types = "cci")
+ele <- read_tsv("data-lists/electorate/electorate-counts.tsv",
+                col_types = cols()) %>%
+  mutate(code = as.character(code))
 
-ctr_largest <- full_join(ctr, pop, by = "code") %>%
-  filter(pop21 > 4e4)
+ctr_largest <- full_join(ctr, select(ele, city, code, n_ins), by = "code") %>%
+  filter(n_ins > 2e4)
 
 ggplot(geo) +
   geom_sf(aes(fill = status)) +
@@ -81,7 +83,7 @@ ggplot(geo) +
   theme_map +
   labs(title = "Data coverage",
        subtitle = "Source: fieldwork notes, 17-21 June 2024",
-       caption = "Labels show cities with 40,000+ residents")
+       caption = "Labels show cities with 20,000+ registered voters")
 
 ggsave("data-lists/coverage/coverage-choropleth.jpg", width = 8, height = 8)
 

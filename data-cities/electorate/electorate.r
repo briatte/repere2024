@@ -18,19 +18,28 @@ d <- map_dfr(f, ~ unz(z, .x) %>%
                                  show_col_types = FALSE, id = "code")) %>%
   mutate(code = str_extract(code, "59\\d{3}"))
 
-# total electorate size ~ 1.83 million
+# non-French voters are counted twice, on municipal and EU compl. lists
+count(d, `libellé du type de liste`)
+
+# remove compl. list for municipal elections
+d <- filter(d, `libellé du type de liste` != "Liste complémentaire municipale")
+
+# total electorate size ~ 1.82 million
 nrow(d)
 
 d <- d %>%
   select(code,
-                city = `libellé de l'ugle`,
-                list = `libellé du type de liste`,
-                sex = sexe,
-                dob = `date de naissance`,
-                nat = `identifiant nationalité`) %>%
+         city = `libellé de l'ugle`,
+         list = `libellé du type de liste`,
+         fam1 = `nom de naissance`,
+         fam2 = `nom d'usage`,
+         first = `prénoms`,
+         sex = sexe,
+         dob = `date de naissance`,
+         nat = `identifiant nationalité`) %>%
   mutate(bdy = as.Date(str_replace(dob, "\\d{4}$", "2024"), "%d/%m/%Y"),
          age = 2023 - as.integer(str_extract(dob, "\\d{4}")),
-         # exact age at election date (works only on valid dates, but 972 voters
+         # exact age at election date (works only on valid dates, but 963 voters
          # have '00' as day or month of birth, a lot of them born during WW2, so
          # sticking with year of birth for them; affects < 0.1% of the sample)
          age = if_else(is.na(bdy), age, age + (bdy < as.Date("2024-06-09"))),
@@ -54,7 +63,6 @@ count(d, list)
 # sanity check: only nationals on main lists
 stopifnot(d$nat[ d$list == "principale" ] == "FR")
 # sanity check: only non-nationals on compl. lists
-stopifnot(d$nat[ d$list == "complémentaire municipale" ] != "FR")
 stopifnot(d$nat[ d$list == "complémentaire européenne" ] != "FR")
 
 # top 5: BE, PT, IT, ES, DE

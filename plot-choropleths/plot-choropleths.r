@@ -47,7 +47,8 @@ ggplot(geo) +
   scale_fill_viridis_b("", option = "C", breaks = 2:5, labels = lbl) +
   theme_map +
   labs(title = "Size of total electorate",
-       subtitle = "All nationalities")
+       subtitle = "All nationalities",
+       caption = "Labels show cities with 40,000+ residents")
 
 ggsave("plot-choropleths/choropleth-n_ins.jpg", width = 8, height = 8)
 
@@ -64,7 +65,8 @@ ggplot(geo) +
   theme_map +
   labs(title = "Size of non-French electorate",
        subtitle = "All nationalities",
-       caption = "Areas in grey are cities with 0 non-French voters")
+       caption = str_c("Areas in grey are cities with 0 non-French voters\n",
+                       "Labels show cities with 40,000+ residents"))
 
 ggsave("plot-choropleths/choropleth-n_eur.jpg", width = 8, height = 8)
 
@@ -82,7 +84,8 @@ ggplot(geo) +
   theme_map +
   labs(title = "% of non-French voters out of total electorate",
        subtitle = "All nationalities",
-       caption = "Areas in grey are cities with 0 non-French voters")
+       caption = str_c("Areas in grey are cities with 0 non-French voters\n",
+                       "Labels show cities with 40,000+ residents"))
 
 ggsave("plot-choropleths/choropleth-pct_eur.jpg", width = 8, height = 8)
 
@@ -101,7 +104,8 @@ ggplot(geo) +
   nat_breaks +
   theme_map +
   labs(title = "Size of Belgian electorate",
-       caption = "Areas in grey are cities with 0 Belgian voters")
+       caption = str_c("Areas in grey are cities with 0 Belgian voters\n",
+                       "Labels show cities with 40,000+ residents"))
 
 ggsave("plot-choropleths/choropleth-n_be.jpg", width = 8, height = 8)
 
@@ -121,7 +125,8 @@ ggplot(geo) +
   nat_breaks +
   theme_map +
   labs(title = "Size of Portuguese electorate",
-       caption = "Areas in grey are cities with 0 Portuguese voters")
+       caption = str_c("Areas in grey are cities with 0 Portuguese voters\n",
+                       "Labels show cities with 40,000+ residents"))
 
 ggsave("plot-choropleths/choropleth-n_pt.jpg", width = 8, height = 8)
 
@@ -135,7 +140,8 @@ ggplot(geo) +
   nat_breaks +
   theme_map +
   labs(title = "Size of Italian electorate",
-       caption = "Areas in grey are cities with 0 Italian voters")
+       caption = str_c("Areas in grey are cities with 0 Italian voters\n",
+                       "Labels show cities with 40,000+ residents"))
 
 ggsave("plot-choropleths/choropleth-n_it.jpg", width = 8, height = 8)
 
@@ -149,7 +155,8 @@ ggplot(geo) +
   nat_breaks +
   theme_map +
   labs(title = "Size of Spanish electorate",
-       caption = "Areas in grey are cities with 0 Spanish voters")
+       caption = str_c("Areas in grey are cities with 0 Spanish voters\n",
+                       "Labels show cities with 40,000+ residents"))
 
 ggsave("plot-choropleths/choropleth-n_es.jpg", width = 8, height = 8)
 
@@ -163,7 +170,8 @@ ggplot(geo) +
   nat_breaks +
   theme_map +
   labs(title = "Size of German electorate",
-       caption = "Areas in grey are cities with 0 German voters")
+       caption = str_c("Areas in grey are cities with 0 German voters\n",
+                       "Labels show cities with 40,000+ residents"))
 
 ggsave("plot-choropleths/choropleth-n_de.jpg", width = 8, height = 8)
 

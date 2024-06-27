@@ -25,7 +25,7 @@ v <- full_join(pre22, select(eur24, -city), by = "code") %>%
 p1 <- ggplot(v, aes(100 * le_pen_r1, 100 * bardella)) +
   geom_density_2d_filled(alpha = 0.5, show.legend = FALSE) +
   geom_point(aes(size = ins)) +
-  ggrepel::geom_label_repel(data = filter(v, ins > 2.5e4),
+  ggrepel::geom_label_repel(data = filter(v, ins > 2e4),
                             aes(label = city),
                             box.padding = 0.7, max.overlaps = Inf,
                             min.segment.length = 0, seed = 202459) +
@@ -43,7 +43,7 @@ p1 <- ggplot(v, aes(100 * le_pen_r1, 100 * bardella)) +
 p2 <- ggplot(v, aes(100 * macron_r1, 100 * ensemble)) +
   geom_density_2d_filled(alpha = 0.5, show.legend = FALSE) +
   geom_point(aes(size = ins)) +
-  ggrepel::geom_label_repel(data = filter(v, ins > 2.5e4),
+  ggrepel::geom_label_repel(data = filter(v, ins > 2e4),
                             aes(label = city),
                             box.padding = 0.7, max.overlaps = Inf,
                             min.segment.length = 0, seed = 202459) +
@@ -61,7 +61,7 @@ p2 <- ggplot(v, aes(100 * macron_r1, 100 * ensemble)) +
 p3 <- ggplot(v, aes(100 * melenchon_r1, 100 * melenchon)) +
   geom_density_2d_filled(alpha = 0.5, show.legend = FALSE) +
   geom_point(aes(size = ins)) +
-  ggrepel::geom_label_repel(data = filter(v, ins > 2.5e4),
+  ggrepel::geom_label_repel(data = filter(v, ins > 2e4),
                             aes(label = city),
                             box.padding = 0.7, max.overlaps = Inf,
                             min.segment.length = 0, seed = 202459) +
@@ -79,7 +79,7 @@ p3 <- ggplot(v, aes(100 * melenchon_r1, 100 * melenchon)) +
 p4 <- ggplot(v, aes(100 * melenchon_r1, 100 * glucksmann)) +
   geom_density_2d_filled(alpha = 0.5, show.legend = FALSE) +
   geom_point(aes(size = ins)) +
-  ggrepel::geom_label_repel(data = filter(v, ins > 2.5e4),
+  ggrepel::geom_label_repel(data = filter(v, ins > 2e4),
                             aes(label = city),
                             box.padding = 0.7, max.overlaps = Inf,
                             min.segment.length = 0, seed = 202459) +
@@ -96,7 +96,7 @@ p4 <- ggplot(v, aes(100 * melenchon_r1, 100 * glucksmann)) +
 p1 + p2 + plot_layout(ncol = 2, widths = c(1, 1), heights = NA) +
   plot_annotation(
     caption = str_c("Point areas are proportional to electorate size\n",
-                    "Labels show cities with 25,000+ registered voters\n",
+                    "Labels show cities with 20,000+ registered voters\n",
                     "Note: both x-axes and y-axes have different ranges")
   )
 
@@ -104,8 +104,8 @@ ggsave("plot-vshares/plot-vshares-rn-ensemble.jpg", width = 14, height = 7)
 
 p3 + p4 + plot_layout(ncol = 2, widths = c(1, 1), heights = NA) +
   plot_annotation(
-    caption = str_c("Point areas are proportional to electorate size\n",
-                    "Labels show cities with 25,000+ registered voters\n",
+    caption = str_c("Point areas are proportional to 2024 electorate size\n",
+                    "Labels show cities with 20,000+ registered voters\n",
                     "Note: both x-axes and y-axes have different ranges")
   )
 

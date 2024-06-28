@@ -57,18 +57,40 @@ group_by(d, status) %>%
 
 "Observed but empty" means that the cities were inspected during fieldwork but did not provide a complementary list of EU voters.
 
+Relationship to `n_eur`:
+
+```{r n_eur, echo = TRUE}
+# cities with n_eur > 0 should be 'Observed'
+table(d$status, d$n_eur > 0)
+100 * prop.table(table(d$status, d$n_eur > 0), 1) # 96% covered
+```
+
 Remarks:
 
 - The voting lists of 68 cities (10% of total) could not be observed during fieldwork, as they could not be located by the prefectural staff.
 - In addition, 152 cities did not separate EU voters from French nationals in their lists, which led us to drop them from the observation pool.
-- Roughly 10% of EU voters are registered in these missing cities, which are all small-size cities with less than 5,000 residents.
-- The amount of missing data is very reasonable, and is unlikely to cause sampling bias.
+- Roughly 10% of EU voters are registered in these missing cities, which are all small-size cities with less than 5,000 residents:
+
+```{r status-v-city-size, echo = TRUE}
+group_by(d, status) %>% 
+  summarise(n = n(), median_voterpop = median(n_ins))
+```
+
+The amount of missing data is very reasonable, and is unlikely to cause sampling bias.
 
 ## Spatial distribution of missing cities
 
 ![](coverage-choropleth.jpg)
 
 Given the limited amount of missing data, we did not test for complete spatial randomness, but a rough test of median latitude and longitude of the city centroids did not return any significant effect.
+
+```{r csr, echo = TRUE}
+xy <- bind_cols(d, as_tibble(st_coordinates(ctr))) %>%
+  mutate(upper = Y > median(xy$Y))
+
+glm(complete == "Unobserved, missing" ~ upper + n_ins, data = xy) %>%
+  coef()
+```
 
 ## Consistency with 2020 model samples
 
@@ -141,3 +163,12 @@ m4_24_cities <- sum(d$status == "Observed")
 ```
 
 Kelbel _et al._ 2024 report a sample size of 9,827 voters in the 486 cities included in Model 4. Our estimate is that the same model estimated on the 2024 sample will likely include __`r format(m4_24_voters, big.mark = ",")`__ voters from __`r m4_24_cities`__ cities.
+
+## Other checks
+
+Cities with n_eur == 0 should be anything but 'Observed.' There are 21 weird cases where n_eur == 0 but status is 'Observed':
+
+```{r problems}
+table(d$status, zero = d$n_eur == 0)
+# TODO: check
+```

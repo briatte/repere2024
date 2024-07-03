@@ -93,3 +93,46 @@ library(rvest) # bundled with the {tidyverse}
 library(sf)
 library(tidyverse)
 ```
+
+## HOWTO
+
+The code below will refresh all datasets, plots and reports.
+
+```r
+# fs::dir_ls(glob = "*r", recurse = TRUE)
+
+# [1] generate datasets
+
+# city-{centres,contours}.rds
+source("data-cities/geography/geography.r")
+# population.tsv
+source("data-cities/population/population.r")
+# turnout-eur-2024.tsv
+source("data-elections/eur-2024/eur-2024.r")
+# results-eur-2024.tsv
+source("data-elections/eur-2024/results-eur-2024.r")
+# turnout-mun-2020-r[12].tsv
+source("data-elections/mun-2020/mun-2020.r")
+# turnout-pre-2022-r[12], results-pre-2022-r[12].tsv
+source("data-elections/pre-2022/pre-2022.r")
+# vshares-pre-2022.tsv
+source("data-elections/pre-2022/vshares-pre-2022.r")
+# coverage.tsv
+source("data-lists/coverage/coverage.r")
+# electorate.tsv
+source("data-lists/electorate/electorate.r")
+
+# [2] generate plots
+
+source("data-lists/coverage/plot-coverage.r")
+source("plot-cartograms/plot-cartograms.r")
+source("plot-choropleths/plot-choropleths.r")
+source("plot-turnout/plot-turnout.r")
+source("plot-vshares/plot-vshares.r")
+
+# [3] generate reports
+library(knitr)
+
+# coverage.md
+knitr::knit("data-lists/coverage.rmd")
+```

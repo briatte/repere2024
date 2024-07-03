@@ -1,11 +1,23 @@
 # scrape European election 2024 results for the Nord (59)
+# save raw data as ZIP archive in the process
 
 library(rvest)
 library(tidyverse)
 
-fs::dir_create("html")
-fs::dir_create("html/index")
-fs::dir_create("html/cities")
+z <- "data-elections/eur-2024/html.zip"
+
+if (!fs::file_exists(z)) {
+
+  fs::dir_create("data-elections/eur-2024/html")
+  fs::dir_create("data-elections/eur-2024/html/index")
+  fs::dir_create("data-elections/eur-2024/html/cities")
+
+} else {
+
+  cat("Unzipping", nrow(unzip(z, list = TRUE)), "files from", z, "...\n")
+  unzip(z)
+
+}
 
 b <- str_c("https://www.archives-resultats-elections.interieur.gouv.fr/",
            "resultats/europeennes2024/ensemble_geographique/32/59/")
@@ -15,8 +27,9 @@ for (i in LETTERS) {
 
   u <- str_c(b, i, ".php")
 
-  f <- fs::path("html/index", fs::path_file(u))
+  f <- fs::path("data-elections/eur-2024/html/index", fs::path_file(u))
   cat(f)
+
   if (!fs::file_exists(f)) {
 
     h <- try(download.file(u, f, mode = "wb", quiet = TRUE), silent = TRUE)
@@ -33,11 +46,12 @@ for (i in LETTERS) {
 
   cat(":", length(h), "cities...\n")
 
-  for (j in h) {
+  for (j in str_extract(h, "59\\d{3}")) {
 
     u <- str_c(b, str_sub(j, 3))
 
-    f <- str_c("html/cities/", str_extract(j, "59\\d{3}"), ".html")
+    f <- str_c("data-elections/eur-2024/html/cities/", j, ".html")
+
     if (!fs::file_exists(f)) {
 
       download.file(u, f, mode = "wb", quiet = TRUE)
@@ -64,6 +78,9 @@ for (i in LETTERS) {
 
 }
 
+cat("Zipping raw data to", z, "...\n")
+zip(z, "data-elections/eur-2024/html", extras = "-q -i *.html -i *.php")
+
 # finalize turnout --------------------------------------------------------
 
 d %>%
@@ -75,6 +92,6 @@ d %>%
          code = as.integer(str_sub(code, end = -2))) %>%
   # turnout = 100 * (1 - abs / ins)
   select(city, code, ins, abs) %>%
-  readr::write_tsv("turnout-eur-2024.tsv")
+  readr::write_tsv("data-elections/eur-2024/turnout-eur-2024.tsv")
 
 # kthxbye

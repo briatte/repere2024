@@ -1,11 +1,23 @@
 # scrape municipal election 2020 results for the Nord (59)
+# save raw data as ZIP archive in the process
 
 library(rvest)
 library(tidyverse)
 
-fs::dir_create("html")
-fs::dir_create("html/index")
-fs::dir_create("html/cities")
+z <- "data-elections/mun-2020/html.zip"
+
+if (!fs::file_exists(z)) {
+
+  fs::dir_create("data-elections/mun-2020/html")
+  fs::dir_create("data-elections/mun-2020/html/index")
+  fs::dir_create("data-elections/mun-2020/html/cities")
+
+} else {
+
+  cat("Unzipping", nrow(unzip(z, list = TRUE)), "files from", z, "...\n")
+  unzip(z)
+
+}
 
 b <- str_c("https://www.archives-resultats-elections.interieur.gouv.fr/",
            "resultats/municipales-2020/059/")
@@ -15,8 +27,9 @@ for (i in LETTERS) {
 
   u <- str_c(b, "059", i, ".php")
 
-  f <- fs::path("html/index", fs::path_file(u))
+  f <- fs::path("data-elections/mun-2020/html/index", fs::path_file(u))
   cat(f)
+
   if (!fs::file_exists(f)) {
 
     h <- try(download.file(u, f, mode = "wb", quiet = TRUE), silent = TRUE)
@@ -34,11 +47,12 @@ for (i in LETTERS) {
 
   cat(":", length(h), "cities...\n")
 
-  for (j in h) {
+  for (j in str_extract(h, "59\\d{3}")) {
 
     u <- str_c(b, str_sub(j, 8))
 
-    f <- str_c("html/cities/", str_extract(j, "59\\d{3}"), ".html")
+    f <- str_c("data-elections/mun-2020/html/cities/", j, ".html")
+
     if (!fs::file_exists(f)) {
 
       download.file(u, f, mode = "wb", quiet = TRUE)
@@ -79,13 +93,16 @@ for (i in LETTERS) {
 
 }
 
+cat("Zipping raw data to", z, "...\n")
+zip(z, "data-elections/mun-2020/html", extras = "-q -i *.html -i *.php")
+
 # finalize turnout --------------------------------------------------------
 
 d <- d %>%
   mutate(what = str_sub(str_to_lower(what), 1, 3),
          n = as.integer(str_remove_all(n, "\\D")),
          city = str_sub(city, 19),
-         code = as.integer(str_extract(code, "59\\d{3}"))) %>%
+         code = as.integer(code)) %>%
   group_by(city) %>%
   # if 12 rows, 2 rounds: first 6 rows = round 2, next 6 are round 1
   # if 6 rows, single round: all rows = round 1
@@ -106,11 +123,11 @@ n_distinct(d$city[ d$round == 2 ]) # 92
 # export round 1
 filter(d, round == 1) %>%
   select(city, code, ins, abs) %>%
-  readr::write_tsv("turnout-mun-2020-r1.tsv")
+  readr::write_tsv("data-elections/mun-2020/turnout-mun-2020-r1.tsv")
 
 # export round 2
 filter(d, round == 2) %>%
   select(city, code, ins, abs) %>%
-  readr::write_tsv("turnout-mun-2020-r2.tsv")
+  readr::write_tsv("data-elections/mun-2020/turnout-mun-2020-r2.tsv")
 
 # kthxbye

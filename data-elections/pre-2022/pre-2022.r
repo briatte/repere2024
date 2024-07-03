@@ -1,11 +1,23 @@
 # scrape presidential election 2022
+# save raw data as ZIP archive in the process
 
 library(rvest)
 library(tidyverse)
 
-fs::dir_create("html")
-fs::dir_create("html/index")
-fs::dir_create("html/cities")
+z <- "data-elections/pre-2022/html.zip"
+
+if (!fs::file_exists(z)) {
+
+  fs::dir_create("data-elections/pre-2022/html")
+  fs::dir_create("data-elections/pre-2022/html/index")
+  fs::dir_create("data-elections/pre-2022/html/cities")
+
+} else {
+
+  cat("Unzipping", nrow(unzip(z, list = TRUE)), "files from", z, "...\n")
+  unzip(z)
+
+}
 
 b <- str_c("https://www.archives-resultats-elections.interieur.gouv.fr/",
            "resultats/presidentielle-2022/032/059/")
@@ -16,8 +28,9 @@ for (i in LETTERS) {
 
   u <- str_c(b, "059", i, ".php")
 
-  f <- fs::path("html/index", fs::path_file(u))
+  f <- fs::path("data-elections/pre-2022/html/index", fs::path_file(u))
   cat(f)
+
   if (!fs::file_exists(f)) {
 
     h <- try(download.file(u, f, mode = "wb", quiet = TRUE), silent = TRUE)
@@ -35,11 +48,11 @@ for (i in LETTERS) {
 
   cat(":", length(h), "cities...\n")
 
-  for (j in h) {
+  for (j in str_extract(h, "59\\d{3}")) {
 
     u <- str_c(b, str_sub(j, 15))
 
-    f <- str_c("html/cities/", str_extract(j, "59\\d{3}"), ".html")
+    f <- str_c("data-elections/pre-2022/html/cities/", j, ".html")
     # cat(f)
     if (!fs::file_exists(f)) {
 
@@ -88,13 +101,16 @@ for (i in LETTERS) {
 
 }
 
+cat("Zipping raw data to", z, "...\n")
+zip(z, "data-elections/pre-2022/html", extras = "-q -i *.html -i *.php")
+
 # finalize turnout --------------------------------------------------------
 
 d <- d %>%
   mutate(what = str_sub(str_to_lower(what), 1, 3),
          n = as.integer(str_remove_all(n, "\\D")),
          city = str_sub(city, 12),
-         code = as.integer(str_extract(code, "59\\d{3}"))) %>%
+         code = as.integer(code)) %>%
   group_by(city) %>%
   mutate(round = 1:n(),
          round = if_else(round < 7, 2L, 1L)) %>%
@@ -110,12 +126,12 @@ stopifnot(sum(d$round == 2) == 648)
 # export turnout, round 1
 filter(d, round == 1) %>%
   select(city, code, ins, abs) %>%
-  readr::write_tsv("turnout-pre-2022-r1.tsv")
+  readr::write_tsv("data-elections/pre-2022/turnout-pre-2022-r1.tsv")
 
 # export turnout, round 2
 filter(d, round == 2) %>%
   select(city, code, ins, abs) %>%
-  readr::write_tsv("turnout-pre-2022-r2.tsv")
+  readr::write_tsv("data-elections/pre-2022/turnout-pre-2022-r2.tsv")
 
 # finalize results --------------------------------------------------------
 
@@ -133,11 +149,11 @@ r <- r %>%
 # export results, round 1
 filter(r, round == 1) %>%
   select(city, code, candidate, n) %>%
-  readr::write_tsv("results-pre-2022-r1.tsv")
+  readr::write_tsv("data-elections/pre-2022/results-pre-2022-r1.tsv")
 
 # export results, round 2
 filter(r, round == 2) %>%
   select(city, code, candidate, n) %>%
-  readr::write_tsv("results-pre-2022-r2.tsv")
+  readr::write_tsv("data-elections/pre-2022/results-pre-2022-r2.tsv")
 
 # kthxbye

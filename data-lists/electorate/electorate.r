@@ -21,12 +21,6 @@ d <- map_dfr(f, ~ unz(z, .x) %>%
 # non-French voters are counted twice, on municipal and EU compl. lists
 count(d, `libellé du type de liste`)
 
-# remove compl. list for municipal elections
-d <- filter(d, `libellé du type de liste` != "Liste complémentaire municipale")
-
-# total electorate size ~ 1.82 million
-nrow(d)
-
 d <- d %>%
   select(code,
          city = `libellé de l'ugle`,
@@ -65,8 +59,8 @@ stopifnot(d$nat[ d$list == "principale" ] == "FR")
 # sanity check: only non-nationals on compl. lists
 stopifnot(d$nat[ d$list == "complémentaire européenne" ] != "FR")
 
-# top 5: BE, PT, IT, ES, DE
-print(count(d, nat, sort = TRUE), n = Inf)
+# 26 nationalities; top 5: BE, PT, IT, ES, DE
+# print(count(d, nat, sort = TRUE), n = Inf)
 
 # relabel age groups
 ages <- as.integer(str_sub(levels(d$age6), 2, 3))

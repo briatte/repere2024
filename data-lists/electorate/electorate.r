@@ -90,12 +90,25 @@ d <- mutate(d, first = str_replace_na(first)) %>%
 # sanity check: everyone got (uniquely) hashed
 stopifnot(!is.na(d$pid))
 
-# export problematic cases: n = 2 voters on all three lists
+# export problematic cases [1]: n = 2 voters show up on all three lists
 group_by(d, pid) %>%
-  mutate(n_lists = n_distinct(list)) %>%
-  filter(n_lists > 2) %>%
+  filter(n_distinct(list) > 2) %>%
   arrange(pid, fam1, first, dob) %>%
-  write_tsv("data-lists/electorate/electorate-problematic-cases.tsv")
+  write_tsv("data-lists/electorate/electorate-problematic-cases-1.tsv")
+
+# export problematic cases [2]: n = 2 EU voters show up in multiple cities
+filter(d, list != "principale") %>%
+  group_by(pid) %>%
+  filter(n_distinct(city) > 1) %>%
+  arrange(pid, city, list, fam1, first, dob) %>%
+  write_tsv("data-lists/electorate/electorate-problematic-cases-2.tsv")
+
+# export problematic cases [3]: n = 2,781 French voters show up in multiple cities
+filter(d, list == "principale") %>%
+  group_by(pid) %>%
+  filter(n_distinct(city) > 1) %>%
+  arrange(pid, city, list, fam1, first, dob) %>%
+  write_tsv("data-lists/electorate/electorate-problematic-cases-3.tsv")
 
 # exports -----------------------------------------------------------------
 

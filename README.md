@@ -37,14 +37,13 @@ Electoral data, scraped from the [Web archive][elections] of the Ministry of the
 Data from the 2024 electoral lists:
 
 - `coverage` -- data collection coverage (source: fieldwork, 2024)
-  - analysis: [coverage.md](data-lists/coverage/coverage.md)
+  - report: [coverage.md](data-lists/coverage/coverage.md)
 - `electorate` -- registered voters (source: Préfecture du Nord, 2024)
-  - variable `pid` contains 32-bit hashes based on family names, first names (replaced by "NA" if missing) and dates of birth
-  - analysis: [electorate.md](data-lists/electorate/electorate.md)
+  - report: [electorate.md](data-lists/electorate/electorate.md)
 - `votes`
 - `procurations`
 
-__N.B.__ The scripts in this folder rely on restricted-access datasets.
+__N.B.__ The scripts in this folder rely on restricted-access datasets that contain personal information on voters. In all published material, personal information is replaced with `pid` 128-bit hashes based on family names, first names (replaced by "NA" if missing) and dates of birth.
 
 ## `plot-cartograms`
 
@@ -92,6 +91,7 @@ library(cartogram)
 library(ggrepel)
 library(jqr)
 library(patchwork)
+library(rlang)
 library(rvest) # bundled with the {tidyverse}
 library(sf)
 library(tidyverse)

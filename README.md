@@ -38,20 +38,25 @@ Data from the 2024 electoral lists:
 
 - `coverage` -- data collection coverage (source: fieldwork, 2024)
   - report: [coverage.md](data-lists/coverage/coverage.md)
-- `electorate` -- registered voters (source: Préfecture du Nord, 2024)
+- `electorate` -- registered voters (source: [Préfecture du Nord][pref59], 2024)
   - report: [electorate.md](data-lists/electorate/electorate.md)
-- `votes`
-- `procurations`
+- `vote` -- observed voting patterns (source: fieldwork, 2024)
 
-__N.B.__ The scripts in this folder rely on restricted-access datasets that contain personal information on voters. In all published material, personal information is replaced with `pid` 128-bit hashes based on family names, first names (replaced by "NA" if missing) and dates of birth.
+[pref59]: https://www.nord.gouv.fr/
+
+__N.B.__ The scripts in this folder rely on restricted-access datasets that contain personal information on voters. In all published material, personal information is replaced with `pid` [128-bit hashes][hash] based on family names, first names (replaced by "NA" if missing) and dates of birth.
+
+[hash]: https://rlang.r-lib.org/reference/hash.html
 
 ## `plot-cartograms`
 
-Contiguous and non-overlapping circle cartograms of abstention and turnout rates.
+Contiguous and non-overlapping [circle cartograms][dorling96] of abstention and turnout rates.
 
 Example:
 
 ![](plot-cartograms/cartogram-pct_abs-eur24.jpg)
+
+[dorling96]: https://www.dannydorling.org/wp-content/files/dannydorling_publication_id1448.pdf
 
 ## `plot-choropleths`
 

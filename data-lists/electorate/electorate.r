@@ -1,6 +1,4 @@
 # requires electoral lists zipped into `Listes arrêtées Nord 140524.zip`
-# file used comes from the préfecture du Nord and was provided to David Gouard
-# on May 15, 2024; more up-to-date lists will follow
 
 library(tidyverse)
 
@@ -32,7 +30,7 @@ d <- d %>%
          nat = `identifiant nationalité`) %>%
   mutate(bdy = as.Date(str_replace(dob, "\\d{4}$", "2024"), "%d/%m/%Y"),
          age = 2023 - as.integer(str_extract(dob, "\\d{4}")),
-         # exact age at election date (works only on valid dates; see below)
+         # exact age at EU election date (works only on valid dates; see below)
          age = if_else(is.na(bdy), age, age + (bdy < as.Date("2024-06-09"))),
          age6 = cut(age, c(18, 25, 35, 45, 55, 65, Inf), right = FALSE),
          female = as.integer(female == "F"),

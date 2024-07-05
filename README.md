@@ -38,6 +38,7 @@ Data from the 2024 electoral lists:
 
 - `coverage` -- data collection coverage (source: fieldwork)
 - `electorate` -- registered voters (source: Préfecture du Nord, 2024)
+  - variable `pid` contains 32-bit hashes based on family names, first names (replaced by "NA" if missing) and dates of birth
 - `votes`
 - `procurations`
 
@@ -119,7 +120,7 @@ source("data-elections/pre-2022/pre-2022.r")
 source("data-elections/pre-2022/vshares-pre-2022.r")
 # coverage.tsv
 source("data-lists/coverage/coverage.r")
-# electorate.tsv
+# electorate-{eur,mun,ppl}.rds, electorate-counts.tsv
 source("data-lists/electorate/electorate.r")
 
 # [2] generate plots

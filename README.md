@@ -36,9 +36,11 @@ Electoral data, scraped from the [Web archive][elections] of the Ministry of the
 
 Data from the 2024 electoral lists:
 
-- `coverage` -- data collection coverage (source: fieldwork)
+- `coverage` -- data collection coverage (source: fieldwork, 2024)
+  - analysis: [coverage.md](data-lists/coverage/coverage.md)
 - `electorate` -- registered voters (source: Préfecture du Nord, 2024)
   - variable `pid` contains 32-bit hashes based on family names, first names (replaced by "NA" if missing) and dates of birth
+  - analysis: [electorate.md](data-lists/electorate/electorate.md)
 - `votes`
 - `procurations`
 

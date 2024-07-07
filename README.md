@@ -102,7 +102,6 @@ library(cartogram)
 library(ggrepel)
 library(jqr)
 library(patchwork)
-library(rlang)
 library(rvest) # bundled with the {tidyverse}
 library(sf)
 library(tidyverse)

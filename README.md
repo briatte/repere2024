@@ -48,6 +48,12 @@ __N.B.__ The scripts in this folder rely on restricted-access datasets that cont
 
 [hash]: https://rlang.r-lib.org/reference/hash.html
 
+## `data-nationalities`
+
+Data on non-French EU nationalities, at the national and departmental levels:
+
+- `nationalities` -- counts of top 8 non-French EU nationalities (source: census, 2021)
+
 ## `plot-cartograms`
 
 Contiguous and non-overlapping [circle cartograms][dorling96] of abstention and turnout rates.

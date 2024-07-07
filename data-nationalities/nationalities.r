@@ -1,8 +1,5 @@
-#
-#
-
-# Communes (nb. d'étrangers)
-# https://www.insee.fr/fr/statistiques/7633011?sommaire=7633024#dictionnaire
+# counts of French and other EU nationalities (PT, ES, IT, DE, BE, PL, RO, NL)
+# source: census 2021
 
 library(tidyverse)
 
@@ -118,7 +115,7 @@ pop_59_f <- read_delim(f, delim = ";", skip = 205, n_max = 49,
   fill(prop_59, .direction = "up") %>%
   mutate(prop_59 = 100 * n_59 / prop_59)
 
-# assemble ----------------------------------------------------------------
+# assemble and export -----------------------------------------------------
 
 bind_rows(
   full_join(pop_fr, pop_59, by = "nat") %>%

@@ -1,3 +1,4 @@
+# process, separate and count national and non-national electorates
 # requires electoral lists zipped into `Listes arrêtées Nord 140524.zip`
 
 library(tidyverse)

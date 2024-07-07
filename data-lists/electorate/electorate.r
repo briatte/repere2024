@@ -83,6 +83,8 @@ stopifnot(d$nat[ d$list == "complémentaire municipale" ] != "FR")
 # hashing -----------------------------------------------------------------
 
 cat("Hashing", format(nrow(d), big.mark = ","), "rows...\n")
+
+# slow (takes a minute or so)
 d <- mutate(d, first = str_replace_na(first)) %>%
   rowwise() %>%
   mutate(pid = rlang::hash(str_c(fam1, first, dob))) %>%
@@ -90,6 +92,8 @@ d <- mutate(d, first = str_replace_na(first)) %>%
 
 # sanity check: everyone got (uniquely) hashed
 stopifnot(!is.na(d$pid))
+
+# first and third blocks below are both slow (a minute or so each)
 
 # export problematic cases [1]: n = 2 voters show up on all 3 lists
 group_by(d, pid) %>%
@@ -111,6 +115,20 @@ filter(d, list == "principale") %>%
   arrange(pid, city, list, fam1, first, dob) %>%
   write_tsv("data-lists/electorate/electorate-problematic-cases-3.tsv")
 
+# registration of non-French voters ---------------------------------------
+
+p <- filter(d, list != "principale") %>%
+  group_by(pid) %>%
+  summarise(
+    ins_mun = as.integer("complémentaire municipale" %in% list),
+    ins_eur = as.integer("complémentaire européenne" %in% list),
+    ins_both = as.integer((ins_mun + ins_eur) == 2)
+  )
+
+sum(p$ins_mun)  # 10,971 -- two cases less, because of 2 duplicates
+sum(p$ins_eur)  #  9,949 -- one case less, because of 1 duplicate
+sum(p$ins_both) #  9,602 -- 96% of those registered for EU elections
+
 # exports -----------------------------------------------------------------
 
 # total electorate size ~ 1.82 million
@@ -118,10 +136,14 @@ cat("Exporting", format(n_distinct(d$pid), big.mark = ","), "voters...\n")
 
 # export municipal election list (n = 10,973)
 filter(d, list == "complémentaire municipale") %>%
+  # add registration dummies
+  left_join(p, by = "pid") %>%
   readr::write_rds("data-lists/electorate/electorate-mun.rds", compress = "gz")
 
 # export EU elections list (n = 9,950)
 filter(d, list == "complémentaire européenne") %>%
+  # add registration dummies
+  left_join(p, by = "pid") %>%
   readr::write_rds("data-lists/electorate/electorate-eur.rds", compress = "gz")
 
 # export main (French) list (n = 1,814,942)
@@ -130,7 +152,7 @@ filter(d, list == "principale") %>%
 
 # counts ------------------------------------------------------------------
 
-# non-French counts, by nationality
+# non-French counts (EU elections only), by nationality
 nat <- filter(d, list == "complémentaire européenne") %>%
   filter(nat != "FR") %>%
   mutate(nat = str_c("n_", str_to_lower(nat))) %>%

@@ -130,7 +130,7 @@ bind_rows(
     add_column(sex = "F", .after = 1) %>%
     filter(nat != "Total")
 ) %>%
-  mutate_if(is.numeric, round, 3) %>%
+  mutate_if(is.numeric, round, 2) %>%
   readr::write_tsv("data-nationalities/nationalities.tsv")
 
 # kthxbye

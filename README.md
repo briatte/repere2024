@@ -40,7 +40,8 @@ Data from the 2024 electoral lists:
   - report: [coverage.md](data-lists/coverage/coverage.md)
 - `electorate` -- registered voters (source: [Préfecture du Nord][pref59], 2024)
   - report: [electorate.md](data-lists/electorate/electorate.md)
-- `vote` -- observed voting patterns (source: fieldwork, 2024)
+- `panel` -- find voters observed in both 2020 and 2024 (sources: fieldwork, 2020, and lists of registered voters, [Préfecture du Nord][pref59], 2024)
+- `vote2024` -- observed voting patterns (source: fieldwork, 2024)
 
 [pref59]: https://www.nord.gouv.fr/
 
@@ -134,6 +135,8 @@ source("data-elections/pre-2022/vshares-pre-2022.r")
 source("data-lists/coverage/coverage.r")
 # electorate-{eur,mun,ppl}.rds, electorate-counts.tsv
 source("data-lists/electorate/electorate.r")
+# panel.tsv
+source("data-lists/panel/panel.r")
 
 # [2] generate plots
 

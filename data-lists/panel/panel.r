@@ -356,6 +356,7 @@ nrow(p) - nrow(p7)
 # assemble panel
 e_final <- bind_rows(
   # method 1: 10,853 matches (`pid` never missing at that stage)
+  # note: 8,519 of these matches are found in `e` (i.e. in 2024)
   filter(e1, !is.na(code20)),
   # method 2: 89 matches (`pid` missing for unmatched observations from 2020)
   filter(e2, !is.na(code20), !is.na(pid)),
@@ -374,6 +375,9 @@ e_final <- bind_rows(
 
 # 8,676 voters from 2024 + 2,334 unmatched observations from 2020
 table(e_final$pid %in% e$pid)
+
+prop.table(table(e_final$pid %in% e$pid)) # matched 78% of 2024 sample
+table(e_final$pid %in% e$pid) / nrow(p)   # matched 79% of 2020 sample
 
 # single duplicate from 2024 is still here
 e_final[ duplicated(e_final$pid), ]

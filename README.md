@@ -17,7 +17,7 @@ City-level data:
 
 - `border` -- contiguity to Belgian border
   - Source: fieldwork, 2020
-  - __N.B.__ The script in this folder requires two unreleased datasets used in [Kelbel _et al._ 2024][pag24].
+  - __N.B.__ The script in this folder requires two unreleased datasets used in [Kelbel _et al._ 2024][pag24]. The `border.tsv` dataset contains some of the same information, with minor corrections.
 - `census` -- population characteristics extracted from the last census
 - `geography` -- spatial boundaries and centroids
   - Source: [Etalab, 2024][geo]
@@ -49,12 +49,14 @@ Data from the 2024 electoral lists:
   - Report: [electorate.md](data-lists/electorate/electorate.md)
 - `panel` -- find voters observed in both 2020 and 2024
   - Sources: fieldwork, 2020, and lists of registered voters, [Préfecture du Nord][pref59], 2024
+  - Report: [panel.md](data-lists/panel/panel.md)
 - `vote2024` -- observed voting patterns
   - Source: fieldwork, 2024
+  - Report: [vote2024.md](data-lists/vote2024/vote2024.md)
 
 [pref59]: https://www.nord.gouv.fr/
 
-__N.B.__ The scripts in this folder rely on restricted-access datasets that contain personal information on voters. In all published material, personal information is replaced with `pid` [128-bit hashes][hash] based on family names, first names (replaced with "NA" when missing) and dates of birth (also replaced with "NA" when missing, which occurs only in the 2020 sample).
+__N.B.__ The scripts in this folder rely on several restricted-access datasets that contain personal information on voters. In all published material, personal information is replaced with `pid` [128-bit hashes][hash] based on family names, first names (replaced with "NA" when missing) and dates of birth (also replaced with "NA" when missing, which occurs only in the 2020 sample).
 
 [hash]: https://rlang.r-lib.org/reference/hash.html
 

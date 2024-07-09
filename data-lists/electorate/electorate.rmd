@@ -1,0 +1,72 @@
+---
+title: "Socio-demographics of electorate"
+author: "FB"
+date: "2024-07-09"
+output:
+  md_document:
+    variant: gfm
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+library(tidyverse)
+
+d <- readr::read_rds("../electorate/electorate-eur.rds")
+
+pop <- readr::read_tsv("../coverage/coverage.tsv",
+                       col_types = "cciiii") %>% 
+              select(-city)
+
+cov <- readr::read_tsv("../../data-cities/population/population.tsv",
+                       col_types = "cci") %>% 
+              select(-city)
+
+d <- left_join(d, pop, by = "code") %>% 
+  left_join(cov, by = "code") %>% 
+  mutate(
+    pop = cut(pop21, c(1, 1e3, 5e3, 1e4, 2e4, 5e4, Inf), 
+              labels = c("< 1,000", "< 5,000", "< 10,000", "< 20,000", 
+                         "< 50,000", "50,000+"),
+              right = FALSE, dig.lab = 5),
+    nat9 = forcats::fct_lump_n(nat, 8, other_level = "Other EU") %>% 
+      forcats::fct_infreq() %>% 
+      forcats::fct_relevel("Other EU", after = Inf))
+
+t_pop <- count(d, pop) %>% 
+  add_column(what = "EU voters")
+
+t_nat <- count(d, pop, nat9) %>% 
+  mutate(nat9 = str_c("% ", nat9)) %>% 
+  group_by(pop) %>% 
+  mutate(n = round(100 * n / sum(n))) %>%
+  rename(what = nat9)
+
+t_sex <- group_by(d, pop) %>% 
+  summarise(n = round(100 * mean(female))) %>% 
+  add_column(what = "% female")
+
+t_age <- count(d, pop, age6) %>% 
+  mutate(age6 = str_c("% aged ", age6)) %>% 
+  group_by(pop) %>% 
+  mutate(n = round(100 * n / sum(n))) %>%
+  rename(what = age6)
+
+t_obs <- group_by(d, pop) %>% 
+  summarise(n = round(100 * mean(observed))) %>% 
+  add_column(what = "% observed in 2024")
+```
+
+## Socio-demographic profile of non-French electorate
+
+```{r main-stats}
+bind_rows(t_pop, t_nat, t_sex, t_age, t_obs) %>% 
+  pivot_wider(names_from = "pop", values_from = "n") %>% 
+  rename(`City size` = what) %>% 
+  knitr::kable(format.args = list(big.mark = ","),
+               caption = "Sources: fieldwork notes, prefectural lists.")
+```
+
+The sample is slightly biased against smaller cities, for which electoral lists were not always available.
+
+When compared to the EU voters of larger cities, the EU voters in smaller cities are much more often Belgian nationals, slightly more often female, and less often 65 years-old or more.

@@ -1,0 +1,85 @@
+---
+title: "Socio-demographics of panel sample"
+author: "FB"
+date: "2024-07-09"
+output:
+  md_document:
+    variant: gfm
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+library(tidyverse)
+
+d <- readr::read_rds("../electorate/electorate-eur.rds")
+
+panel <- readr::read_tsv("../panel/panel.tsv",
+                         col_types = "ccii") %>% 
+  transmute(code, pid, in_panel = mun_r1 %in% 0:2)
+
+pop <- readr::read_tsv("../coverage/coverage.tsv",
+                       col_types = "cciiii") %>% 
+              select(-city)
+
+cov <- readr::read_tsv("../../data-cities/population/population.tsv",
+                       col_types = "cci") %>% 
+              select(-city)
+
+d <- left_join(d, pop, by = "code") %>% 
+  left_join(cov, by = "code") %>% 
+  mutate(
+    pop = cut(pop21, c(1, 1e3, 5e3, 1e4, 2e4, 5e4, Inf), 
+              labels = c("< 1,000", "< 5,000", "< 10,000", "< 20,000", 
+                         "< 50,000", "50,000+"),
+              right = FALSE, dig.lab = 5),
+    nat9 = forcats::fct_lump_n(nat, 8, other_level = "Other EU") %>% 
+      forcats::fct_infreq() %>% 
+      forcats::fct_relevel("Other EU", after = Inf)) %>% 
+  left_join(panel, by = c("code", "pid")) %>%
+  mutate(in_panel = replace_na(in_panel, 0),
+         in_panel = if_else(in_panel == 1, "Inside", "Outside"))
+
+t_pop <- count(d, in_panel) %>% 
+  add_column(what = "EU voters")
+
+t_nat <- count(d, in_panel, nat9) %>% 
+  mutate(nat9 = str_c("% ", nat9)) %>% 
+  group_by(in_panel) %>% 
+  mutate(n = round(100 * n / sum(n))) %>%
+  rename(what = nat9)
+
+t_sex <- group_by(d, in_panel) %>% 
+  summarise(n = round(100 * mean(female))) %>% 
+  add_column(what = "% female")
+
+t_age <- count(d, in_panel, age6) %>% 
+  mutate(age6 = str_c("% aged ", age6)) %>% 
+  group_by(in_panel) %>% 
+  mutate(n = round(100 * n / sum(n))) %>%
+  rename(what = age6)
+
+t_city <- count(d, in_panel, pop) %>% 
+  mutate(pop = str_c("% in ", pop, " cities")) %>% 
+  group_by(in_panel) %>% 
+  mutate(n = round(100 * n / sum(n))) %>%
+  rename(what = pop)
+
+t_obs <- group_by(d, in_panel) %>% 
+  summarise(n = round(100 * mean(observed))) %>% 
+  add_column(what = "% observed in 2024")
+```
+
+## Socio-demographics of panel sample
+
+```{r main-stats}
+bind_rows(t_pop, t_nat, t_city, t_sex, t_age, t_obs) %>% 
+  pivot_wider(names_from = "in_panel", values_from = "n") %>% 
+  rename(`Panel membership` = what) %>% 
+  knitr::kable(format.args = list(big.mark = ","),
+               caption = "Sources: fieldwork notes, prefectural lists.")
+```
+
+The panel sample is made of EU voters for which we have voting data for both the 2020 (municipal) and 2024 (EU) elections.
+
+The panel sample is biased against younger voters, which makes sense since the youngest of them could not yet vote in 2020. It also has more Portuguese voters and less voters from the largest cities, which is a likely side effect of its age bias, and slightly less females, which might again be explained by its age structure.

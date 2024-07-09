@@ -166,9 +166,10 @@ ggsave("data-cities/border/border-front-front3.jpg", width = 8, height = 8)
 # after visual inspection, there two cities at the border that should be coded
 # as contiguous to Belgium; all other cities with no status should be coded 0
 
-# the 2 missing values could explain why Kelbel et al. 2024 report 76 cities
-# coded as located at the Belgian border, whereas the dataset contains only
-# 74 such cases
+# the 2 missing values explain why Kelbel et al. 2024 report 76 cities coded 
+# as located at the Belgian border, whereas the dataset contains only 74 such
+# cases; the reason why the 2 cities are missing from the data is likely to be
+# that neither had any EU voter on their electoral lists
 
 border <- add_column(border, city = NA_character_) %>%
   add_row(code = "59217", front = NA, front3 = NA, city = "Eth") %>%

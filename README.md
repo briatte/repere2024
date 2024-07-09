@@ -42,17 +42,17 @@ Electoral data, scraped from the [Web archive][elections] of the Ministry of the
 Data from the 2024 electoral lists:
 
 - `coverage` -- data collection coverage
-  - Source: fieldwork, 2024
   - Report: [coverage.md](data-lists/coverage/coverage.md)
-- `electorate` -- registered voters
-  - Source: [Préfecture du Nord][pref59], 2024
-  - Report: [electorate.md](data-lists/electorate/electorate.md)
-- `panel` -- find voters observed in both 2020 and 2024
-  - Sources: fieldwork, 2020, and lists of registered voters, [Préfecture du Nord][pref59], 2024
-  - Report: [panel.md](data-lists/panel/panel.md)
-- `vote2024` -- observed voting patterns
   - Source: fieldwork, 2024
+- `electorate` -- registered voters
+  - Report: [electorate.md](data-lists/electorate/electorate.md)
+  - Source: [Préfecture du Nord][pref59], 2024
+- `panel` -- find voters observed in both 2020 and 2024
+  - Report: [panel.md](data-lists/panel/panel.md)
+  - Sources: fieldwork, 2020, and lists of registered voters, [Préfecture du Nord][pref59], 2024
+- `vote2024` -- observed voting patterns
   - Report: [vote2024.md](data-lists/vote2024/vote2024.md)
+  - Source: fieldwork, 2024
 
 [pref59]: https://www.nord.gouv.fr/
 

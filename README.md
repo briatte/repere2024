@@ -15,9 +15,14 @@ See [Kelbel _et al._ 2024][pag24] for earlier results on the 2020 municipal elec
 
 City-level data:
 
+- `border` -- contiguity to Belgian border
+  - Source: fieldwork, 2020
+  - __N.B.__ The script in this folder requires two unreleased datasets used in [Kelbel _et al._ 2024][pag24].
 - `census` -- population characteristics extracted from the last census
-- `geography` -- spatial boundaries and centroids (source: [Etalab, 2024][geo])
-- `population` -- legal population sizes (source: [Insee, 2024][legal-pop])
+- `geography` -- spatial boundaries and centroids
+  - Source: [Etalab, 2024][geo]
+- `population` -- legal population sizes
+  - Source: [Insee, 2024][legal-pop]
 
 [geo]: https://geo.api.gouv.fr/
 [legal-pop]: https://www.insee.fr/fr/statistiques/7739582
@@ -36,16 +41,20 @@ Electoral data, scraped from the [Web archive][elections] of the Ministry of the
 
 Data from the 2024 electoral lists:
 
-- `coverage` -- data collection coverage (source: fieldwork, 2024)
-  - report: [coverage.md](data-lists/coverage/coverage.md)
-- `electorate` -- registered voters (source: [Préfecture du Nord][pref59], 2024)
-  - report: [electorate.md](data-lists/electorate/electorate.md)
-- `panel` -- find voters observed in both 2020 and 2024 (sources: fieldwork, 2020, and lists of registered voters, [Préfecture du Nord][pref59], 2024)
-- `vote2024` -- observed voting patterns (source: fieldwork, 2024)
+- `coverage` -- data collection coverage
+  - Source: fieldwork, 2024
+  - Report: [coverage.md](data-lists/coverage/coverage.md)
+- `electorate` -- registered voters
+  - Source: [Préfecture du Nord][pref59], 2024
+  - Report: [electorate.md](data-lists/electorate/electorate.md)
+- `panel` -- find voters observed in both 2020 and 2024
+  - Sources: fieldwork, 2020, and lists of registered voters, [Préfecture du Nord][pref59], 2024
+- `vote2024` -- observed voting patterns
+  - Source: fieldwork, 2024
 
 [pref59]: https://www.nord.gouv.fr/
 
-__N.B.__ The scripts in this folder rely on restricted-access datasets that contain personal information on voters. In all published material, personal information is replaced with `pid` [128-bit hashes][hash] based on family names, first names (replaced by "NA" if missing) and dates of birth.
+__N.B.__ The scripts in this folder rely on restricted-access datasets that contain personal information on voters. In all published material, personal information is replaced with `pid` [128-bit hashes][hash] based on family names, first names (replaced with "NA" when missing) and dates of birth (also replaced with "NA" when missing, which occurs only in the 2020 sample).
 
 [hash]: https://rlang.r-lib.org/reference/hash.html
 

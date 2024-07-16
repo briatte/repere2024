@@ -66,6 +66,8 @@ Data on non-French EU nationalities, at the national and departmental levels:
 
 - `nationalities` -- counts of top 8 non-French EU nationalities (source: census, 2021)
 
+__N.B.__ The counts and proportions for "Other EU" nationalities is an approximation for _each_ other EU nationality, obtained by dividing the total number of "Other EU" nationals by 18 (EU 27 - French - top 8 non-French nationalities).
+
 ## `plot-cartograms`
 
 Contiguous and non-overlapping [circle cartograms][dorling96] of abstention and turnout rates.

@@ -18,12 +18,17 @@ City-level data:
 - `border` -- contiguity to Belgian border
   - Source: fieldwork, 2020
   - __N.B.__ The script in this folder requires two unreleased datasets used in [Kelbel _et al._ 2024][pag24]. The `border.tsv` dataset contains some of the same information, with minor corrections.
-- `census` -- population characteristics extracted from the last census
+- `census` -- population characteristics extracted from the 2021 census
+  - Source: [Insee, 2024][census]
+- `density` -- population density, continuous and categorical
+  - Source: [Insee, 2024][density]
 - `geography` -- spatial boundaries and centroids
   - Source: [Etalab, 2024][geo]
 - `population` -- legal population sizes
   - Source: [Insee, 2024][legal-pop]
 
+[census]: https://www.insee.fr/fr/statistiques/5359146
+[density]: https://www.insee.fr/fr/information/2114627
 [geo]: https://geo.api.gouv.fr/
 [legal-pop]: https://www.insee.fr/fr/statistiques/7739582
 

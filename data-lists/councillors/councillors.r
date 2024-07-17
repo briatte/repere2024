@@ -23,7 +23,7 @@ cm <- "data-lists/councillors/elus-municipaux-cm-2-.csv" %>%
     nat = `Code nationalité`
   ) %>%
   filter(dept == "59") %>%
-  mutate(first = str_replace_na(first), female = as.integer(female == "M")) %>%
+  mutate(first = str_replace_na(first), female = as.integer(female == "F")) %>%
   rowwise() %>%
   mutate(pid = rlang::hash(str_c(fam1, first, dob))) %>%
   ungroup()
@@ -32,8 +32,8 @@ elus <- inner_join(d, select(cm, -dept, -fam1, -first), by = "pid")
 nrow(elus) # 13 matches
 
 # sanity checks: matches confirmed by sex and nationality
-stopifnot(elus$female.x == elus$female.y)
-stopifnot(elus$nat.x == elus$nat.y)
+stopifnot(identical(elus$female.x, elus$female.y))
+stopifnot(identical(elus$nat.x, elus$nat.y))
 
 count(elus, csp, csp_name) # self-declared
 count(elus, mandate_start) # 2020 or 2021
@@ -63,8 +63,8 @@ d <- full_join(nat0, select(nat1, -code), by = "pid") %>%
   select(-nat)
 
 # last sanity checks
-stopifnot(nrow(d) == nrow(nat0))
-stopifnot(sum(d$cm_seat) == nrow(elus))
+stopifnot(identical(nrow(d), nrow(nat0)))
+stopifnot(identical(sum(d$cm_seat), nrow(elus)))
 
 # last checks
 sum(d$cm_nat0) # 329

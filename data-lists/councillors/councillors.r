@@ -23,8 +23,7 @@ cm <- "data-lists/councillors/elus-municipaux-cm-2-.csv" %>%
     nat = `Code nationalité`
   ) %>%
   filter(dept == "59") %>%
-  mutate(first = str_replace_na(first),
-         female = if_else(female == "M", 0L, 1L)) %>%
+  mutate(first = str_replace_na(first), female = as.integer(female == "M")) %>%
   rowwise() %>%
   mutate(pid = rlang::hash(str_c(fam1, first, dob))) %>%
   ungroup()

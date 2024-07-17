@@ -1,3 +1,8 @@
+# export vote shares of all presidential candidates on both rounds
+# could have been done in main script, but thought about it later
+
+library(tidyverse)
+
 # round 1
 v1 <- readr::read_tsv("data-elections/pre-2022/results-pre-2022-r1.tsv",
                 col_types = "ccci") %>%

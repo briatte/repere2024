@@ -38,6 +38,7 @@ Electoral data, scraped from the [Web archive][elections] of the Ministry of the
 
 - `eur-2024` -- turnout in the 2024 EU elections
 - `mun-2020` -- turnout in the 2020 municipal elections
+  - Also includes code to determine the (often missing) left-right position of the municipal majority, as determined by council seats.
 - `pre-2024` -- turnout and results of the 2022 presidential election
 
 [elections]: https://www.archives-resultats-elections.interieur.gouv.fr/
@@ -46,6 +47,8 @@ Electoral data, scraped from the [Web archive][elections] of the Ministry of the
 
 Data from the 2024 electoral lists:
 
+- `councillors` -- non-French voters on municipal councils
+  - Source: [RNE (Ministry of the Interior), 2024][rne]
 - `coverage` -- data collection coverage
   - Report: [coverage.md](data-lists/coverage/coverage.md)
   - Source: fieldwork, 2024
@@ -60,6 +63,7 @@ Data from the 2024 electoral lists:
   - Source: fieldwork, 2024
 
 [pref59]: https://www.nord.gouv.fr/
+[rne]: https://www.data.gouv.fr/fr/datasets/repertoire-national-des-elus-1/
 
 __N.B.__ The scripts in this folder rely on several restricted-access datasets that contain personal information on voters. In all published material, personal information is replaced with `pid` [128-bit hashes][hash] based on family names, first names (replaced with "NA" when missing) and dates of birth (also replaced with "NA" when missing, which occurs only in the 2020 sample).
 

@@ -1,4 +1,4 @@
-# scrape presidential election 2022
+# scrape presidential election 2022 results for the Nord (59)
 # save raw data as ZIP archive in the process
 
 library(rvest)

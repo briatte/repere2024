@@ -1,5 +1,7 @@
-# compare all `front*` variables present in the 2020 datasets
-# requires exported columns from both (see Stata code below)
+# compare all `front*` variables present in the 2020 datasets, select the right
+# ones to denote border status, and add adjacency to border city status
+#
+# NOTE: requires exported columns from two author-provided Stata datasets
 
 library(sf)
 library(tidyverse)
@@ -7,8 +9,10 @@ library(tidyverse)
 # merge 2020 datasets and sort out variables ------------------------------
 
 # Stata code to export relevant columns from source:
+#
 # outsheet codec_insee nat_9 front front2 front3 using ///
-# "border_from_59_inscription_communes.tsv"
+#     "border_from_59_inscription_communes.tsv"
+#
 a <- "data-cities/border/border_from_59_inscription_communes.dta.tsv" %>%
   readr::read_tsv(show_col_types = FALSE)
 
@@ -17,8 +21,11 @@ distinct(a) %>%
   group_by(codec_insee, nat_9) %>%
   filter(length(codec_insee) > 1)
 
+# Stata code to export relevant columns from source:
+#
 # outsheet codec_insee nat_9 front* using ///
-# "border_from_Nord_harmonised_final.dta.tsv"
+#     "border_from_Nord_harmonised_final.dta.tsv"
+#
 b <- "data-cities/border/border_from_Nord_harmonised_final.dta.tsv" %>%
   readr::read_tsv(show_col_types = FALSE)
 
@@ -166,7 +173,7 @@ ggsave("data-cities/border/border-front-front3.jpg", width = 8, height = 8)
 # after visual inspection, there two cities at the border that should be coded
 # as contiguous to Belgium; all other cities with no status should be coded 0
 
-# the 2 missing values explain why Kelbel et al. 2024 report 76 cities coded 
+# the 2 missing values explain why Kelbel et al. 2024 report 76 cities coded
 # as located at the Belgian border, whereas the dataset contains only 74 such
 # cases; the reason why the 2 cities are missing from the data is likely to be
 # that neither had any EU voter on their electoral lists
@@ -198,20 +205,59 @@ ggplot(geo) +
 
 ggsave("data-cities/border/border-front3-missing.jpg", width = 8, height = 8)
 
+# adjacent cities ---------------------------------------------------------
+
+# fix `front3` and fill missing values
+geo <- mutate(geo, front3 = case_when(code %in% c("59004", "59217") ~ 1,
+                                      !is.na(front3) ~ front3,
+                                      .default = 0))
+
+# cities adjacent to border cities
+adj <- filter(geo, front3 == 1) %>%
+  sf::st_filter(geo, ., .predicate = st_touches) %>%
+  # remove border cities
+  filter(front3 == 0) %>%
+  pull(code)
+
+geo <- geo %>%
+  mutate(adjacent = as.integer(code %in% adj),
+         border_status = str_c(front3, adjacent) %>%
+           factor(labels = c("None", "Adjacent to border city",
+                             "At Belgian border")))
+
+# n = 76 at Belgian border, n = 87 adjacent to border city
+count(as_tibble(geo), border_status)
+
+# map shows only 2-3 inconsistencies
+ggplot(geo) +
+  geom_sf(aes(fill = border_status)) +
+  scale_fill_viridis_d("", option = "C") +
+  map_crs +
+  theme_map +
+  labs(title = str_c("Border city status: variables `front3` (corrected)",
+                     " and `adjacent`"),
+       subtitle = "Source: 59_inscription_communes.dta and personal additions")
+
+ggsave("data-cities/border/border-front3-adjacent.jpg", width = 8, height = 8)
+
 # export ------------------------------------------------------------------
 
 # generate complete listing of city codes, with corrected `front3` variable
-# (undecided yet as to what to do with `front`)
-as_tibble(select(geo, code, front, front3)) %>%
+# (undecided yet as to what to do with `front`, which was apparently coded by
+# an intern and never used in the final analysis; dropping it below)
+d <- as_tibble(select(geo, code, front, front3, adjacent)) %>%
   select(-geometry) %>%
-  mutate(front3 = case_when(code %in% c("59004", "59217") ~ 1,
-                            !is.na(front3) ~ front3,
-                            .default = 0)) %>%
   # add city names for good measure
   left_join(readr::read_tsv("data-cities/population/population.tsv",
                             col_types = "ccd"),
             by = "code") %>%
-  select(code, city, border = front3) %>%
-  readr::write_tsv("data-cities/border/border.tsv")
+  select(code, city, border = front3, adjacent)
 
-# wip
+# final sanity checks
+stopifnot(nrow(d) == 648)
+stopifnot(!is.na(d$border) & !is.na(d$adjacent))
+stopifnot(d$border + d$adjacent < 2)
+
+readr::write_tsv(d, "data-cities/border/border.tsv")
+
+# kthxbye

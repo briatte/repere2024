@@ -29,7 +29,7 @@ cm <- "data-lists/councillors/elus-municipaux-cm-2-.csv" %>%
   ungroup()
 
 elus <- inner_join(d, select(cm, -dept, -fam1, -first), by = "pid")
-nrow(elus) # 13 matches
+nrow(elus) # 12 matches
 
 # sanity checks: matches confirmed by sex and nationality
 stopifnot(identical(elus$female.x, elus$female.y))
@@ -39,16 +39,16 @@ count(elus, csp, csp_name) # self-declared
 count(elus, mandate_start) # 2020 or 2021
 count(elus, fn_name) # always empty
 
-# n = 329 voters reside in a city with a non-French councillor
-# ~ 3% of all non-French voters
+# n = 308 voters reside in a city with a non-French councillor
+# ~ 2.7% of all non-French voters
 table(d$code %in% elus$code)
 
 # select them, and code a match by city, but NOT by nationality
 nat0 <- filter(select(d, pid, code), code %in% unique(elus$code)) %>%
   add_column(cm_nat0 = 1L)
 
-# n = 242 voters match the city AND nationality of a non-French councillor
-# ~ 2.2% of all non-French voters
+# n = 222 voters match the city AND nationality of a non-French councillor
+# ~ 1.9% of all non-French voters
 nat1 <- select(elus, code, nat = nat.y) %>%
   inner_join(select(d, pid, code, nat), by = c("code", "nat")) %>%
   add_column(cm_nat1 = 1L)
@@ -67,9 +67,9 @@ stopifnot(identical(nrow(d), nrow(nat0)))
 stopifnot(identical(sum(d$cm_seat), nrow(elus)))
 
 # last checks
-sum(d$cm_nat0) # 329
-sum(d$cm_nat1) # 242
-sum(d$cm_seat) #  13
+sum(d$cm_nat0) # 308
+sum(d$cm_nat1) # 222
+sum(d$cm_seat) #  12
 
 # export
 readr::write_tsv(d, "data-lists/councillors/councillors.tsv")

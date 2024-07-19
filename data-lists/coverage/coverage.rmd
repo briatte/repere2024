@@ -10,6 +10,7 @@ output:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 
+library(sf)
 library(tidyverse)
 
 d <- "coverage.tsv" %>%
@@ -82,14 +83,16 @@ The amount of missing data is very reasonable, and is unlikely to cause sampling
 
 ![](coverage-choropleth.jpg)
 
-Given the limited amount of missing data, we did not test for complete spatial randomness, but a rough test of median latitude and longitude of the city centroids did not return any significant effect.
+Given the limited amount of missing data, we did not test for complete spatial randomness, but a rough test of median latitude and longitude of the city centroids return only weak and statistically insignificant effects.
 
-```{r csr, echo = TRUE}
-xy <- bind_cols(d, as_tibble(st_coordinates(ctr))) %>%
-  mutate(upper = Y > median(xy$Y))
+```{r csr}
+ctr <- readr::read_rds("../../data-cities/geography/city-centres.rds")
 
-glm(complete == "Unobserved, missing" ~ upper + n_ins, data = xy) %>%
-  coef()
+xy <- bind_cols(d, as_tibble(sf::st_coordinates(ctr))) %>%
+  mutate(north = Y > median(Y), east = X < median(X))
+
+glm(status == "Unobserved, missing" ~ north + east + n_ins, data = xy) %>%
+  summary()
 ```
 
 ## Consistency with 2020 model samples

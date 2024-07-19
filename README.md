@@ -55,7 +55,7 @@ Data from the 2024 electoral lists:
 - `electorate` -- registered voters
   - Report: [electorate.md](data-lists/electorate/electorate.md)
   - Source: [Préfecture du Nord][pref59], 2024
-  - __N.B.__ When lists are updated with new data from the _Préfecture_, make sure to refresh all `electorate-.*.rds` files, as well as `electorate-counts.tsv`, as well as any script that produces anything based on these datasets.
+  - __N.B.__ When lists are updated with new data from the _Préfecture_, make sure to refresh all `electorate-.*.rds` files, as well as `electorate-counts.tsv`, as well as any script that produces anything based on these datasets, e.g. `electorate.md`, `panel.rds` and `panel.rmd`, `councillors.tsv`, and so on.
 - `panel` -- find voters observed in both 2020 and 2024
   - Report: [panel.md](data-lists/panel/panel.md)
   - Sources: fieldwork, 2020, and lists of registered voters, [Préfecture du Nord][pref59], 2024

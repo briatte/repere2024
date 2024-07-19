@@ -70,28 +70,6 @@ spatial randomness, but a rough test of median latitude and longitude of
 the city centroids return only weak and statistically insignificant
 effects.
 
-    ## 
-    ## Call:
-    ## glm(formula = status == "Unobserved, missing" ~ north + east + 
-    ##     n_ins, data = xy)
-    ## 
-    ## Coefficients:
-    ##               Estimate Std. Error t value Pr(>|t|)    
-    ## (Intercept)  1.512e-01  1.797e-02   8.411 2.61e-16 ***
-    ## northTRUE   -4.585e-02  3.075e-02  -1.491    0.136    
-    ## eastTRUE    -3.393e-02  3.044e-02  -1.115    0.265    
-    ## n_ins       -2.246e-06  1.695e-06  -1.325    0.186    
-    ## ---
-    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-    ## 
-    ## (Dispersion parameter for gaussian family taken to be 0.0926768)
-    ## 
-    ##     Null deviance: 60.864  on 647  degrees of freedom
-    ## Residual deviance: 59.684  on 644  degrees of freedom
-    ## AIC: 303.58
-    ## 
-    ## Number of Fisher Scoring iterations: 2
-
 ## Consistency with 2020 model samples
 
 The models are those featured in [Kelbel *et al.*

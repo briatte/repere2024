@@ -72,6 +72,11 @@ v$COD_VAR[ first(str_which(v$LIB_VAR, "bac \\+ 2")) ]
 # % working class -- C21_POP15P_CS5
 str_subset(v$LIB_VAR, "Pop.*(vriers|ploy).*2021")
 v$COD_VAR[ first(str_which(v$LIB_VAR, "Pop.*(vriers|ploy).*2021")) ]
+# % working class -- C21_POP15P_CS5 (employees), C21_POP15P_CS6 (blue collars)
+str_subset(v$LIB_VAR, "Pop.*Employé.*2021")
+v$COD_VAR[ first(str_which(v$LIB_VAR, "Pop.*Employé.*2021")) ] # CS5
+str_subset(v$LIB_VAR, "Pop.*Ouvrier.*2021")
+v$COD_VAR[ first(str_which(v$LIB_VAR, "Pop.*Ouvrier.*2021")) ] # CS6
 
 # % residents 20+ years
 str_subset(v$LIB_VAR, "même commune")
@@ -88,7 +93,8 @@ d <- d %>%
     pop_fem = P21_POPF,
     pop_60 = P21_POP6074 + P21_POP7589 + P21_POP90P,
     pop_bac2 = P21_NSCOL15P_SUP2,
-    pop_ouvr = C21_POP15P_CS5
+    pop_empl = C21_POP15P_CS5,
+    pop_ouvr = C21_POP15P_CS6
   ) %>%
   mutate(
     pop = pop + pop_60,

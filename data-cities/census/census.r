@@ -69,14 +69,19 @@ v$COD_VAR[ str_which(v$LIB_VAR, "Pop (60-74|75-89|90 ans).* en 2021") ]
 str_subset(v$LIB_VAR, "bac \\+ 2")
 v$COD_VAR[ first(str_which(v$LIB_VAR, "bac \\+ 2")) ]
 
-# % working class -- C21_POP15P_CS5
-str_subset(v$LIB_VAR, "Pop.*(vriers|ploy).*2021")
-v$COD_VAR[ first(str_which(v$LIB_VAR, "Pop.*(vriers|ploy).*2021")) ]
+cor(d$P21_NSCOL15P_SUP2, d$P21_HNSCOL15P_SUP2)  # pop. v. males    .99
+cor(d$P21_NSCOL15P_SUP2, d$P21_FNSCOL15P_SUP2)  # pop. v. females  .99
+cor(d$P21_HNSCOL15P_SUP2, d$P21_FNSCOL15P_SUP2) # males v. females .99
+
 # % working class -- C21_POP15P_CS5 (employees), C21_POP15P_CS6 (blue collars)
 str_subset(v$LIB_VAR, "Pop.*Employé.*2021")
 v$COD_VAR[ first(str_which(v$LIB_VAR, "Pop.*Employé.*2021")) ] # CS5
 str_subset(v$LIB_VAR, "Pop.*Ouvrier.*2021")
 v$COD_VAR[ first(str_which(v$LIB_VAR, "Pop.*Ouvrier.*2021")) ] # CS6
+
+cor(d$C21_POP15P_CS5, d$C21_H15P_CS5) # pop. v. males    .98
+cor(d$C21_POP15P_CS5, d$C21_F15P_CS5) # pop. v. females  .99
+cor(d$C21_H15P_CS5, d$C21_F15P_CS5)   # males v. females .97
 
 # % residents 20+ years
 str_subset(v$LIB_VAR, "même commune")

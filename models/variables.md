@@ -5,7 +5,7 @@ Level = nationality‐commune dyads
 | Registration   |   | notes |
 |:---------------|---|---|
 |`t1_2` (DV)     |   | 1 = registered |
-|`nat2` (cluster)|   | nationality |
+|`nat2` (cluster)|   | nationality + city dyad |
 |`age60`         | x | % aged 60+ |
 |`assoc_eur`     |   | national association -- __CODING?__ |
 |`assoc_nat1`    |   | national association -- __CODING?__ |
@@ -19,7 +19,7 @@ Level = nationality‐commune dyads
 |`front[23]`     | x | border status |
 |`lepen`         | x | updated to 2022 |
 |`orient`        |   | city-level pol. majority (__subsample, n = 138__) |
-|`part_m2020`    | x | city-level turnout __(update to 2024)__ |
+|`part_m2020`    | x | city-level turnout __(update to EU 2024 or PR 2022)__ |
 |`res20`         |   | % residents for 20+ years -- __SOURCE?__ |
 |`tc`            | x | city size |
 |`tc3`           | x | city size |
@@ -31,9 +31,9 @@ Level = registered EU voters
 | Participation       |   | notes |
 |:--------------------|---|---|
 |`tinscrit2` (DV)     |   | 1 = voted |
-|`codec` (cluster)    | x | city code |
+|`codec` (cluster)    | x | city (Insee code) |
 |`nat` (cluster)      | x | nationality |
-|`nat2` (cluster)     | x | nationality |
+|`nat2` (cluster)     | x | nationality + city dyad |
 |`age`                | x | age |
 |`agesq`              | x | age squared |
 |`assoc_nat1`         |   | national association -- __coding?__ |
@@ -47,7 +47,7 @@ Level = registered EU voters
 |`naissf`             | x | born in France |
 |`orient`             | x | city-level pol. majority (__subsample, n = 138__) |
 |`orient2`            | x | city-level pol. majority (__subsample, n = 138__) |
-|`part_m2020`         | x | city-level turnout __(update to 2024)__ |
+|`part_m2020`         | x | city-level turnout __(update to EU 2024 or PR 2022)__ |
 |`sexe`               | x | sex |
 |`tc`                 | x | city size |
 |`tc2`                | x | city size |

@@ -3,7 +3,7 @@
 
 library(tidyverse)
 
-z <- "data-lists/electorate/Listes arrêtées Nord 140524.zip"
+z <- "data-lists/electorate/Listes-59-2024-07-09.zip"
 f <- unzip(z, list = TRUE) %>%
   pull(Name) %>%
   str_subset("csv$")
@@ -59,19 +59,29 @@ stopifnot(aggregate(city ~ code, d, n_distinct)$city == 1)
 # sanity check: age and sex are never missing
 stopifnot(!is.na(d$female))
 stopifnot(!is.na(d$age))
-stopifnot(min(d$age) == 18) # minimum voting age
-stopifnot(!is.na(d$age6))
+
+# n = 2,482 (French) registered voters are actually less than 18 at the time
+# of the 2024 EU election, which is... alright, I guess?
+with(d, table(list, age < 18))
+
+stopifnot(min(d$age[ d$nat != "FR" ]) == 18) # minimum voting age
+
+# `age6` is only missing for (some French) voters below 18 years-old
+stopifnot(!is.na(d$age6[ d$nat != "FR" ]))
 
 # checks on variables used for hashing
 stopifnot(!is.na(d$fam1))
 stopifnot(!is.na(d$dob))
-sum(is.na(d$first)) # n = 50 rows (48 voters) with no first name(s)
+sum(is.na(d$first)) # n = 49 rows (48 voters?) with no first name(s)
 
 # invalid dates
-sum(str_detect(d$dob, "00/")) # n = 972 (< 0.1% of total)
+sum(str_detect(d$dob, "00/")) # n = 961 (< 0.1% of total)
 
 # main and complementary lists
 count(d, list)
+# complémentaire européenne   10364
+# complémentaire municipale   11175
+# principale                1819378
 
 # sanity check: only nationals on main lists
 stopifnot(d$nat[ d$list == "principale" ] == "FR")
@@ -81,6 +91,10 @@ stopifnot(d$nat[ d$list == "complémentaire européenne" ] != "FR")
 stopifnot(d$nat[ d$list == "complémentaire municipale" ] != "FR")
 
 # hashing -----------------------------------------------------------------
+
+# hash 1,840,917 voters based on family name, first name (NA if missing) and
+# date of birth; allows invalid dates of birth, changes of nationality, city
+# or sex, as well as address and so on
 
 cat("Hashing", format(nrow(d), big.mark = ","), "rows...\n")
 
@@ -95,7 +109,7 @@ stopifnot(!is.na(d$pid))
 
 # first and third blocks below are both slow (a minute or so each)
 
-# export problematic cases [1]: n = 2 voters show up on all 3 lists
+# export problematic cases [1]: n = 1 voter show up on all 3 lists
 group_by(d, pid) %>%
   filter(n_distinct(list) > 2) %>%
   arrange(pid, fam1, first, dob) %>%
@@ -108,7 +122,7 @@ filter(d, list != "principale") %>%
   arrange(pid, city, list, fam1, first, dob) %>%
   write_tsv("data-lists/electorate/electorate-problematic-cases-2.tsv")
 
-# export problematic cases [3]: n = 2,781 French voters show up in 2+ cities
+# export problematic cases [3]: n = 353 French voters show up in 2+ cities
 filter(d, list == "principale") %>%
   group_by(pid) %>%
   filter(n_distinct(city) > 1) %>%
@@ -125,28 +139,31 @@ p <- filter(d, list != "principale") %>%
     ins_both = as.integer((ins_mun + ins_eur) == 2)
   )
 
-sum(p$ins_mun)  # 10,971 -- two cases less, because of 2 duplicates
-sum(p$ins_eur)  #  9,949 -- one case less, because of 1 duplicate
-sum(p$ins_both) #  9,602 -- 96% of those registered for EU elections
+sum(p$ins_mun)  # 11,173 -- two cases less, because of 2 duplicates
+sum(p$ins_eur)  # 10,362 -- two cases less, because of 2 duplicates
+sum(p$ins_both) #  9,868 -- 95% of those registered for EU elections
 
 # exports -----------------------------------------------------------------
 
-# total electorate size ~ 1.82 million
+# main and complementary lists (recall)
+count(d, list)
+
+# total electorate size ~ 1.84 million
 cat("Exporting", format(n_distinct(d$pid), big.mark = ","), "voters...\n")
 
-# export municipal election list (n = 10,973)
+# export municipal election list (n = 11,175)
 filter(d, list == "complémentaire municipale") %>%
   # add registration dummies
   left_join(p, by = "pid") %>%
   readr::write_rds("data-lists/electorate/electorate-mun.rds", compress = "gz")
 
-# export EU elections list (n = 9,950)
+# export EU elections list (n = 10,364)
 filter(d, list == "complémentaire européenne") %>%
   # add registration dummies
   left_join(p, by = "pid") %>%
   readr::write_rds("data-lists/electorate/electorate-eur.rds", compress = "gz")
 
-# export main (French) list (n = 1,814,942)
+# export main (French) list (n = 1,819,378)
 filter(d, list == "principale") %>%
   readr::write_rds("data-lists/electorate/electorate-ppl.rds", compress = "gz")
 

@@ -85,7 +85,7 @@ The amount of missing data is very reasonable, and is unlikely to cause sampling
 
 Given the limited amount of missing data, we did not test for complete spatial randomness, but a rough test of median latitude and longitude of the city centroids return only weak and statistically insignificant effects.
 
-```{r csr}
+```{r glm_median_xy, include = FALSE}
 ctr <- readr::read_rds("../../data-cities/geography/city-centres.rds")
 
 xy <- bind_cols(d, as_tibble(sf::st_coordinates(ctr))) %>%

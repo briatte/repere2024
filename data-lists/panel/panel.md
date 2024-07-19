@@ -2,30 +2,30 @@
 
 | Panel membership      | Inside | Outside |
 |:----------------------|-------:|--------:|
-| EU voters             |  8,063 |   1,887 |
+| EU voters             |  7,960 |   2,404 |
 | % BE                  |     49 |      51 |
-| % PT                  |     22 |      16 |
-| % IT                  |     16 |      15 |
+| % PT                  |     22 |      14 |
+| % IT                  |     16 |      14 |
 | % ES                  |      5 |       6 |
 | % DE                  |      3 |       5 |
 | % NL                  |      2 |       2 |
-| % RO                  |      1 |       1 |
-| % PL                  |      1 |       1 |
+| % RO                  |      1 |       2 |
+| % PL                  |      1 |       2 |
 | % Other EU            |      2 |       4 |
-| % in \< 1,000 cities  |     11 |      11 |
+| % in \< 1,000 cities  |     11 |      10 |
 | % in \< 5,000 cities  |     23 |      20 |
-| % in \< 10,000 cities |     11 |      13 |
+| % in \< 10,000 cities |     11 |      12 |
 | % in \< 20,000 cities |     15 |      14 |
-| % in \< 50,000 cities |     16 |      15 |
+| % in \< 50,000 cities |     16 |      17 |
 | % in 50,000+ cities   |     23 |      27 |
-| % female              |     46 |      49 |
-| % aged 18-24          |      0 |       2 |
-| % aged 25-34          |      4 |      10 |
-| % aged 35-44          |     11 |      14 |
+| % female              |     46 |      50 |
+| % aged 18-24          |      0 |       4 |
+| % aged 25-34          |      4 |      12 |
+| % aged 35-44          |     11 |      16 |
 | % aged 45-54          |     17 |      17 |
 | % aged 55-64          |     22 |      19 |
-| % aged 65+            |     47 |      38 |
-| % observed in 2024    |     94 |      94 |
+| % aged 65+            |     46 |      32 |
+| % observed in 2024    |     94 |      95 |
 
 Sources: fieldwork notes, prefectural lists.
 

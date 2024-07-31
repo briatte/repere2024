@@ -1,53 +1,53 @@
 # `analyse-inscription-59.do`
 
-Level = nationality‐commune dyads
+Level = voters (`1`), nested in nationality (`N`) + city (`c`) dyads
 
-| Registration   |   | notes |
-|:---------------|---|---|
-|`t1_2` (DV)     |   | 1 = registered |
-|`nat2` (cluster)|   | nationality + city dyad |
-|`age60`         | x | % aged 60+ |
-|`assoc_eur`     |   | national association -- __CODING?__ |
-|`assoc_nat1`    |   | national association -- __CODING?__ |
-|`bac2`          | x | % bac+2 |
-|`candnat`       | . | co-national candidate -- __does not apply__ |
-|`comp`          | . | competitiveness (\# lists) -- __does not apply__ |
-|`dens`          |   | density of nationality -- __REQUIRES CENSUS DATA__ |
-|`dens`          |   | density of nationality -- __REQUIRES CENSUS DATA__ |
-|`empou`         |   | % employés/ouvriers -- __CHECK CODING__ |
-|`femme`         | x | % females (city-level) -- __CHECK CODING__ |
-|`front[23]`     | x | border status |
-|`lepen`         | x | updated to 2022 |
-|`orient`        |   | city-level pol. majority (__subsample, n = 138__) |
-|`part_m2020`    | x | city-level turnout __(update to EU 2024 or PR 2022)__ |
-|`res20`         |   | % residents for 20+ years -- __SOURCE?__ |
-|`tc`            | x | city size |
-|`tc3`           | x | city size |
+| Registration   |   | Level | Description | Notes |
+|:---------------|---|:-:|:------------|:------|
+|`t1_2` (DV)     |   | 1 | 1 = registered | . |
+|`nat2` (cluster)| × | N/c | nationality + city dyad | . |
+|`age60`         | × | c | % aged 60+ | . |
+|`assoc_eur`     |   | . | national association | __CODING?__ |
+|`assoc_nat1`    |   | . | national association | __CODING?__ |
+|`bac2`          | × | c | % bac+2 | . |
+|`candnat`       | – | – | co-national candidate | _not applicable to 2024_ |
+|`comp`          | – | – | competitiveness (\# lists) | _not applicable to 2024_ |
+|`dens`          |   | . | density of nationality | __REQUIRES CENSUS DATA__ |
+|`dens`          |   | . | density of nationality | __REQUIRES CENSUS DATA__ |
+|`empou`         | × | c | % employés/ouvriers | __CHECK CODING__ |
+|`femme`         | × | c | % females (city-level) | __CHECK CODING__ |
+|`front[23]`     | × | c | border status | . |
+|`lepen`         | × | c | % Le Pen PR 2017 | update to % Le Pen PR 2022; __include Zemmour?__ |
+|`orient`        | × | c | city-level pol. majority | __subsample, n = 138 cities__ |
+|`part_m2020`    | × | c | city-level turnout | __UPDATE to EU 2024 or PR 2022__ |
+|`res20`         |   | c | % residents for 20+ years | __SOURCE?__ |
+|`tc`            | × | c | city size | copy categories |
+|`tc3`           | × | c | city size | copy categories |
 
 # `analyse-vote-59.do`
 
-Level = registered EU voters
+Level = registered EU voters (`1`), nested in nationality (`N`) + city (`c`) dyads
 
-| Participation       |   | notes |
-|:--------------------|---|---|
-|`tinscrit2` (DV)     |   | 1 = voted |
-|`codec` (cluster)    | x | city (Insee code) |
-|`nat` (cluster)      | x | nationality |
-|`nat2` (cluster)     | x | nationality + city dyad |
-|`age`                | x | age |
-|`agesq`              | x | age squared |
-|`assoc_nat1`         |   | national association -- __coding?__ |
-|`belge`              | x | is Belgian |
-|`candnat`            | . | co-national candidate -- __does not apply__ |
-|`comp`               | . | competitiveness (\# lists) -- __does not apply__ |
-|`dens`               |   | density of nationality -- __requires census data__ |
-|`front[2345]`        | x | border status -- __dataset has only first two__ |
-|`lepen`              | x | updated to 2022 |
-|`logpop`             | x | log(city population) |
-|`naissf`             | x | born in France |
-|`orient`             | x | city-level pol. majority (__subsample, n = 138__) |
-|`orient2`            | x | city-level pol. majority (__subsample, n = 138__) |
-|`part_m2020`         | x | city-level turnout __(update to EU 2024 or PR 2022)__ |
-|`sexe`               | x | sex |
-|`tc`                 | x | city size |
-|`tc2`                | x | city size |
+| Participation       |   | Level | Description | Notes |
+|:--------------------|---|:-:|:------------|:------|
+|`tinscrit2` (DV)     |   | 1 | 1 = voted | . |
+|`codec` (cluster)    | × | c | city (Insee code) | . |
+|`nat` (cluster)      | × | N | nationality | . |
+|`nat2` (cluster)     | × | N/c | nationality + city dyad | . |
+|`age`                | × | 1 | age | . |
+|`agesq`              | × | 1 | age^2 | . |
+|`assoc_nat1`         |   | . | national association | __CODING?__ |
+|`belge`              | × | 1 | is Belgian | . |
+|`candnat`            | – | – | co-national candidate | _not applicable to 2024_ |
+|`comp`               | – | – | competitiveness (\# lists) | _not applicable to 2024_ |
+|`dens`               |   | . | density of nationality | __REQUIRES CENSUS DATA__ |
+|`front[2345]`        | × | c | border status | __dataset has only first two__ |
+|`lepen`              | × | c | % Le Pen PR 2017 | update to % Le Pen PR 2022; __include Zemmour?__ |
+|`logpop`             | × | c | log(city population) | . |
+|`naissf`             | × | 1 | born in France | . |
+|`orient`             | × | c | city-level pol. majority | __subsample, n = 138 cities__ |
+|`orient2`            | × | c | city-level pol. majority | __subsample, n = 138 cities__ |
+|`part_m2020`         | × | c | city-level turnout | __UPDATE to EU 2024 or PR 2022__ |
+|`sexe`               | × | 1 | sex | . |
+|`tc`                 | × | c | city size | copy categories |
+|`tc2`                | × | c | city size | copy categories |

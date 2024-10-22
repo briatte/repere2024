@@ -17,6 +17,67 @@ d <- map_dfr(f, ~ unz(z, .x) %>%
                                  show_col_types = FALSE, id = "code")) %>%
   mutate(code = str_extract(code, "59\\d{3}"))
 
+# export CODING spreadsheet -----------------------------------------------
+
+# [NOTE] merges both lists using the same variables that Meredith used in her
+#        code, which exports 11,137 non-French voters from an earlier version
+#        of the prefectural lists; the updated July lists contain more voters
+
+f <- str_replace(z, "\\.zip$", "-CODING.tsv")
+
+eur <- filter(d, str_detect(`libellé du type de liste`, "européenne$")) %>%
+  add_column(liste_euro = 1)
+mun <- filter(d, str_detect(`libellé du type de liste`, "municipale$")) %>%
+  # last variable required to avoid duplicates
+  anti_join(eur,by = c("nom de naissance", "nom d'usage", "prénoms",
+                       "date de naissance", "libellé de l'ugle")) %>%
+  add_column(liste_muni = 1)
+
+bind_rows(eur, mun) %>%
+  arrange(code, `libellé de l'ugle`, `code du bureau de vote`,
+          `nom de naissance`, prénoms) %>%
+  mutate(liste_euro = replace_na(liste_euro, 0),
+         liste_muni = replace_na(liste_muni, 0)) %>%
+  select(
+    # `libellé du scrutin`,
+    # coded = `code du département`,
+    code,
+    ugle = `libellé de l'ugle`,
+    `nom de naissance`,
+    `nom d'usage`,
+    prénoms,
+    sexe,
+    `date de naissance`,
+    `identifiant nationalité`,
+    starts_with("liste_"),
+    `commune de naissance`,
+    `code du département de naissance`,
+    `pays de naissance`,
+    `numéro de voie`,
+    `libellé de voie`,
+    starts_with("complément"),
+    `lieu-dit`,
+    `code postal`,
+    commune,
+    pays,
+    `code du bureau de vote`,
+    `libellé du bureau de vote`,
+    `circonscription législative du bureau de vote`,
+    `canton du bureau de vote`) %>%
+  # vote and comments columns
+  add_column(vote = "", .after = "nom de naissance") %>%
+  mutate(vote = if_else(liste_euro == 0, "(mun only)", "")) %>%
+  add_column(commentaires = "") %>%
+  readr::write_tsv(f)
+
+f <- readr::read_tsv(f, guess_max = 10^4, col_types = cols())
+
+# check file integrity + absence of duplicated rows
+stopifnot(!duplicated(f))
+
+# hard-coded number of observations for July 9, 2024 lists
+stopifnot(nrow(f) == 11669)
+
 # rename and recode -------------------------------------------------------
 
 d <- d %>%

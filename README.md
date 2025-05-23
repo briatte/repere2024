@@ -11,6 +11,17 @@ See [Kelbel _et al._ 2024][pag24] for earlier results on the 2020 municipal elec
 
 ## Contents
 
+## `data-associations`
+
+Civic society groups (_associations_) data, extracted from the _[JOAF][joaf]_.
+
+- `keywords.csv` are regular expressions used in 2020 and 2024
+- `joaf-extract.r` exports an initial list of potential matches
+- `joaf-process.r` processes the corrected version of that list
+- `associations.tsv` contains the matched city-nationality dyads for both 2020 and 2024, which almost perfectly agree for the 51 dyads of 2020 (__preliminary version__, many checks ongoing)
+
+[joaf]: https://journal-officiel-datadila.opendatasoft.com/explore/embed/dataset/jo_associations/table/?sort=dateparution&refine.lieu_declaration_facette=Nord
+
 ## `data-cities`
 
 City-level data:

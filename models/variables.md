@@ -13,7 +13,6 @@ Level = voters (`1`), nested in nationality (`N`) + city (`c`) dyads
 |`candnat`       | – | – | co-national candidate | _not applicable to 2024_ |
 |`comp`          | – | – | competitiveness (\# lists) | _not applicable to 2024_ |
 |`dens`          |   | . | density of nationality | __REQUIRES CENSUS DATA__ |
-|`dens`          |   | . | density of nationality | __REQUIRES CENSUS DATA__ |
 |`empou`         | × | c | % employés/ouvriers | __CHECK CODING__ |
 |`femme`         | × | c | % females (city-level) | __CHECK CODING__ |
 |`front[23]`     | × | c | border status | . |

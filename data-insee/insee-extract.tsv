@@ -1,4 +1,4 @@
-code	natl	n0	n1	sex_m	sex_f	age_15	age_60	resid_19	resid_20	edu_lo	edu_hi	occ_else	occ_empl
+code	natl	n0	n1	sex_m	sex_f	age_15	age_60	res_19	res_20	edu_lo	edu_hi	occ_else	occ_empl
 59001	BEL	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA
 59001	NLD	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA
 59001	PRT	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA

@@ -137,7 +137,7 @@ stopifnot(!is.na(assocs$codepostal_actuel))
 
 # export ------------------------------------------------------------------
 
-# TODO: handle 164 dissolved (done after export)
+# TODO: (done after export) handle 164 dissolved
 assocs <- arrange(assocs, titre_search, datedeclaration) %>%
   group_by(titre_search) %>%
   mutate(dissolved = as.integer(last(typeAvis) == "Dissolution")) %>%
@@ -148,7 +148,7 @@ filter(ma, matched == 1) %>%
   arrange(result_citycode) %>%
   readr::write_csv("data-associations/JOAF-2025-05-22.csv", na = "")
 
-# TODO: check cities with non-59xxx Insee codes (done after export)
-# TODO: check keyword match relevance (partially done)
+# TODO: (done after export) check cities with non-59xxx Insee codes
+# TODO: (partially done since export) check keyword match relevance
 
 # work in progress

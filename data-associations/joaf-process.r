@@ -70,7 +70,7 @@ assocs %>%
   left_join(distinct(prev, code, natl) %>%
               add_column(asso2020 = 1), by = c("code", "natl")) %>%
   rename(asso2024 = asso) %>%
-  mutate(asso2020 = replace_na(0)) %>%
+  mutate(asso2020 = replace_na(asso2020, 0)) %>%
   arrange(code, natl) %>%
   readr::write_tsv("data-associations/associations.tsv")
 

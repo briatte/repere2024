@@ -17,7 +17,7 @@ filter(e, pid %in% pid[ duplicated(e$pid )]) %>%
 
 # 2020 sample -------------------------------------------------------------
 
-p <- haven::read_dta("data-lists/panel/Nord_harmonised_final.dta") %>%
+p <- haven::read_dta("data-2020/Nord_harmonised_final.dta") %>%
   select(
     # variables also available in 2024: city + personal info + some demographics
     city20 = lcom, code20 = codec_insee,

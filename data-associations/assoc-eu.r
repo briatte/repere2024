@@ -1,6 +1,6 @@
 library(countrycode)
 
-assocs_eu <- "data-lists/panel/Nord_harmonised_final.dta" %>%
+assocs_eu <- "data-2020/Nord_harmonised_final.dta" %>%
   haven::read_dta() %>%
   mutate(nat = haven::as_factor(nat)) %>%
   mutate(natl = case_when(nat == "Néerlandaise" ~ "Pays-Bas",

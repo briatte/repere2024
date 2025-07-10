@@ -35,13 +35,14 @@ City-level data:
   - Source: [Insee, 2024][density]
 - `geography` -- spatial boundaries and centroids
   - Source: [Etalab, 2024][geo]
-- `population` -- legal population sizes
-  - Source: [Insee, 2024][legal-pop]
+- `population` -- legal population sizes, years 2020 and 2021
+  - Sources: [Insee, 2022][legal-pop20] and [Insee, 2024][legal-pop21]
 
 [census]: https://www.insee.fr/fr/statistiques/5359146
 [density]: https://www.insee.fr/fr/information/2114627
 [geo]: https://geo.api.gouv.fr/
-[legal-pop]: https://www.insee.fr/fr/statistiques/7739582
+[legal-pop21]: https://www.insee.fr/fr/statistiques/7739582
+[legal-pop20]: https://www.insee.fr/fr/statistiques/6683031
 
 ## `data-elections`
 

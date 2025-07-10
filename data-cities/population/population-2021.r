@@ -14,12 +14,12 @@ d <- readr::read_csv2(unz(f, "donnees_communes.csv")) %>%
 stopifnot(nrow(d) == 648)
 
 # total population size = 2.6 million
-sum(d$PTOT) # 2641207
+sum(d$PTOT) # 2,641,207
 
-# mean ~ 4,000, median ~ 1,300, max ~ 238,500
+# mean ~ 4,000, median ~ 1,300, max ~ 238,000
 summary(d$PTOT)
 
 select(d, code = COM, city = Commune, pop21 = PTOT) %>%
-  readr::write_tsv("data-cities/population/population.tsv")
+  readr::write_tsv("data-cities/population/population-2021.tsv")
 
 # kthxbye
